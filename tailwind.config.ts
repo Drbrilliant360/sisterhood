@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom colors for our African-inspired theme
+				"sisterhood": {
+					"primary": "#8B5CF6", // Vivid purple as primary color
+					"secondary": "#D946EF", // Magenta pink as secondary color
+					"accent": "#F97316", // Bright orange as accent color
+					"neutral": "#403E43", // Charcoal gray for text
+					"light": "#F1F0FB", // Soft gray for backgrounds
+					"yellow": "#FEF7CD", // Soft yellow for accents
+					"green": "#F2FCE2", // Soft green for accents
+					"orange": "#FEC6A1", // Soft orange for accents
+					"purple": "#E5DEFF", // Soft purple for accents
+					"pink": "#FFDEE2", // Soft pink for accents
+					"darkpurple": "#1A1F2C", // Dark purple for contrast
 				}
 			},
 			borderRadius: {
@@ -84,11 +99,20 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'african-pattern': "url('/african-pattern.svg')",
+				'hero-pattern': "linear-gradient(rgba(26, 31, 44, 0.8), rgba(26, 31, 44, 0.8)), url('https://images.unsplash.com/photo-1496440737103-cd596325d314?q=80&w=1674&auto=format&fit=crop')"
 			}
 		}
 	},
