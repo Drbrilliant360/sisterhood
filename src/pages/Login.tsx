@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Card, 
   CardContent, 
@@ -15,32 +15,70 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2 } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real app, you would connect this to your backend authentication
-    if (email && password) {
+    if (!email || !password) {
       toast({
-        title: "Login Successful",
-        description: "Welcome back to SisterHood!",
-        duration: 3000,
-      });
-      
-      // You would normally navigate to dashboard here
-    } else {
-      toast({
-        title: "Login Failed",
-        description: "Please enter valid credentials",
+        title: "Missing Information",
+        description: "Please enter both email and password",
         variant: "destructive",
         duration: 3000,
       });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+          duration: 3000,
+        });
+      } else if (data?.user) {
+        toast({
+          title: "Login Successful",
+          description: "Welcome back to SisterHood!",
+          duration: 3000,
+        });
+        
+        // Save session if rememberMe is checked
+        if (rememberMe) {
+          localStorage.setItem('supabase.auth.token', JSON.stringify(data.session));
+        }
+        
+        // Navigate to dashboard
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      toast({
+        title: "Login Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,6 +112,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="border-sisterhood-primary/30 focus:border-sisterhood-primary focus:ring-sisterhood-primary"
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -92,6 +131,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     className="border-sisterhood-primary/30 focus:border-sisterhood-primary focus:ring-sisterhood-primary"
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -100,12 +140,24 @@ const Login = () => {
                     id="remember-me" 
                     checked={rememberMe}
                     onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                    disabled={isLoading}
                   />
                   <Label htmlFor="remember-me" className="text-sm">Remember me</Label>
                 </div>
                 
-                <Button type="submit" className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90">
-                  Sign In
+                <Button 
+                  type="submit" 
+                  className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
                 
                 <div className="relative">
@@ -118,7 +170,19 @@ const Login = () => {
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="border-gray-300">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="border-gray-300"
+                    onClick={() => {
+                      toast({
+                        title: "Coming Soon",
+                        description: "Google authentication will be available soon",
+                        duration: 3000,
+                      });
+                    }}
+                    disabled={isLoading}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-2">
                       <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" />
                       <path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z" />
@@ -127,7 +191,19 @@ const Login = () => {
                     </svg>
                     Google
                   </Button>
-                  <Button variant="outline" className="border-gray-300">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="border-gray-300"
+                    onClick={() => {
+                      toast({
+                        title: "Coming Soon",
+                        description: "Facebook authentication will be available soon",
+                        duration: 3000,
+                      });
+                    }}
+                    disabled={isLoading}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-2">
                       <path fill="#1877F2" d="M24 12.073c0-5.97-4.323-10.9-10-11.94v5.499a5.552 5.552 0 0 1 2.93 4.883 5.57 5.57 0 0 1-2.93 4.882v5.499C19.677 22.974 24 18.043 24 12.073Z" />
                       <path fill="#1877F2" d="M13.293 22.336v-5.499A5.57 5.57 0 0 1 10.36 12a5.552 5.552 0 0 1 2.933-4.883V1.618C7.616 2.657 3.293 7.588 3.293 13.558c0 5.97 4.323 10.9 10 11.939v-3.161Z" />
