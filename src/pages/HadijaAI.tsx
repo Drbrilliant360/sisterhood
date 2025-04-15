@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Bot, Image, Send, MicrophoneIcon, Brain, Users, FileText } from "lucide-react";
+import { Bot, Image, Send, Mic, Brain, Users, FileText } from "lucide-react";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
@@ -22,13 +21,9 @@ const HadijaAI = () => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
     
-    // Add user message to chat
     setChatHistory([...chatHistory, { role: 'user', content: message }]);
-    
-    // Simulate AI processing
     setIsLoading(true);
     
-    // This is just a simulation - in a real app, you would call your OpenAI integration
     setTimeout(() => {
       let response = '';
       
@@ -165,7 +160,7 @@ const HadijaAI = () => {
                       onClick={handleVoiceInput}
                       title="Voice input"
                     >
-                      <MicrophoneIcon size={20} />
+                      <Mic size={20} />
                     </Button>
                     <Input
                       placeholder="Ask me anything about health, safety, or business..."
