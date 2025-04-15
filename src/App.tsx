@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
 import Safety from "./pages/Safety";
+import HadijaAI from "./pages/HadijaAI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/community" element={<Community />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/safety" element={<Safety />} />
+          <Route path="/hadija-ai" element={<HadijaAI />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

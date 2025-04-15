@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield } from 'lucide-react';
+import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield, Bot } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,6 +51,12 @@ const Navbar = () => {
             <Link to="/safety" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               Safety
             </Link>
+            <Link to="/hadija-ai" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
+              <span className="flex items-center">
+                <Bot size={16} className="mr-1" />
+                Hadija AI
+              </span>
+            </Link>
             <Link to="/register" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               Register
             </Link>
@@ -91,6 +97,12 @@ const Navbar = () => {
             </Link>
             <Link to="/safety" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
               Safety
+            </Link>
+            <Link to="/hadija-ai" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
+              <span className="flex items-center">
+                <Bot size={16} className="mr-1" />
+                Hadija AI
+              </span>
             </Link>
             <Link to="/register" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
               Register
