@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -23,9 +22,12 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2 } from 'lucide-react';
 
 const Register = () => {
   const [userType, setUserType] = useState('normal');
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -49,6 +51,7 @@ const Register = () => {
   });
   
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,7 +78,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
@@ -109,14 +112,55 @@ const Register = () => {
       return;
     }
     
-    // In a real app, you would send the data to your backend
-    toast({
-      title: "Registration Successful",
-      description: "Welcome to SisterHood!",
-      duration: 3000,
-    });
+    setIsLoading(true);
     
-    // You would normally navigate to login or dashboard here
+    try {
+      // Create the user in Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            user_type: userType,
+            age: parseInt(formData.age),
+            interests: formData.interests,
+            // Add mentor data if the user is a mentor
+            ...(userType === 'mentor' ? {
+              mentor_profession: mentorData.profession,
+              mentor_experience: mentorData.experience,
+              mentor_expertise: mentorData.expertise,
+              mentor_availability: mentorData.availability,
+            } : {})
+          }
+        }
+      });
+      
+      if (authError) {
+        throw authError;
+      }
+      
+      toast({
+        title: "Registration Successful",
+        description: "Welcome to SisterHood! Please check your email to confirm your account.",
+        duration: 5000,
+      });
+      
+      // Navigate to login page
+      navigate('/login');
+      
+    } catch (error: any) {
+      toast({
+        title: "Registration Failed",
+        description: error.message || "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      console.error("Registration error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -172,6 +216,7 @@ const Register = () => {
                       value={formData.firstName}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   
@@ -184,6 +229,7 @@ const Register = () => {
                       value={formData.lastName}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -198,6 +244,7 @@ const Register = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -212,6 +259,7 @@ const Register = () => {
                       value={formData.password}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   
@@ -225,6 +273,7 @@ const Register = () => {
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -240,6 +289,7 @@ const Register = () => {
                     value={formData.age}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -253,6 +303,7 @@ const Register = () => {
                         onCheckedChange={(checked) => 
                           handleInterestChange('entrepreneurship', checked as boolean)
                         }
+                        disabled={isLoading}
                       />
                       <Label htmlFor="entrepreneurship">Entrepreneurship</Label>
                     </div>
@@ -263,6 +314,7 @@ const Register = () => {
                         onCheckedChange={(checked) => 
                           handleInterestChange('health', checked as boolean)
                         }
+                        disabled={isLoading}
                       />
                       <Label htmlFor="health">Health</Label>
                     </div>
@@ -273,6 +325,7 @@ const Register = () => {
                         onCheckedChange={(checked) => 
                           handleInterestChange('safety', checked as boolean)
                         }
+                        disabled={isLoading}
                       />
                       <Label htmlFor="safety">Safety</Label>
                     </div>
@@ -291,6 +344,7 @@ const Register = () => {
                         value={mentorData.profession}
                         onChange={(e) => handleMentorChange('profession', e.target.value)}
                         required={userType === 'mentor'}
+                        disabled={isLoading}
                       />
                     </div>
                     
@@ -299,6 +353,7 @@ const Register = () => {
                       <Select 
                         value={mentorData.experience} 
                         onValueChange={(value) => handleMentorChange('experience', value)}
+                        disabled={isLoading}
                       >
                         <SelectTrigger id="experience">
                           <SelectValue placeholder="Select years of experience" />
@@ -317,6 +372,7 @@ const Register = () => {
                       <Select 
                         value={mentorData.expertise} 
                         onValueChange={(value) => handleMentorChange('expertise', value)}
+                        disabled={isLoading}
                       >
                         <SelectTrigger id="expertise">
                           <SelectValue placeholder="Select your area of expertise" />
@@ -338,6 +394,7 @@ const Register = () => {
                       <Select 
                         value={mentorData.availability} 
                         onValueChange={(value) => handleMentorChange('availability', value)}
+                        disabled={isLoading}
                       >
                         <SelectTrigger id="availability">
                           <SelectValue placeholder="Select your availability" />
@@ -361,6 +418,7 @@ const Register = () => {
                       setFormData({...formData, termsAccepted: checked as boolean})
                     }
                     required
+                    disabled={isLoading}
                   />
                   <Label htmlFor="terms" className="text-sm">
                     I agree to the{" "}
@@ -374,8 +432,19 @@ const Register = () => {
                   </Label>
                 </div>
                 
-                <Button type="submit" className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90">
-                  Create Account
+                <Button 
+                  type="submit" 
+                  className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    "Create Account"
+                  )}
                 </Button>
               </form>
             </CardContent>

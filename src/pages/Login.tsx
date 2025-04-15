@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Card, 
@@ -25,6 +25,18 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        navigate('/dashboard');
+      }
+    };
+    
+    checkSession();
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,15 +73,10 @@ const Login = () => {
           duration: 3000,
         });
         
-        // Save session if rememberMe is checked
-        if (rememberMe) {
-          localStorage.setItem('supabase.auth.token', JSON.stringify(data.session));
-        }
-        
         // Navigate to dashboard
         navigate('/dashboard');
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Login Error",
         description: "An unexpected error occurred. Please try again.",
