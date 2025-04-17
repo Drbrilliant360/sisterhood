@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
 import Safety from "./pages/Safety";
