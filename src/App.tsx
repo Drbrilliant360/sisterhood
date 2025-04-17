@@ -24,6 +24,10 @@ import Events from "./pages/Events";
 import Testimonials from "./pages/Testimonials";
 import Membership from "./pages/Membership";
 import BecomeMentor from "./pages/BecomeMentor";
+import Mentorship from "./pages/Mentorship";
+import Entrepreneurship from "./pages/Entrepreneurship";
+import HealthResources from "./pages/HealthResources";
+import SafetyTools from "./pages/SafetyTools";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +76,26 @@ const App = () => (
             <Route path="/hadija-ai" element={
               <ProtectedRoute>
                 <HadijaAI />
+              </ProtectedRoute>
+            } />
+            <Route path="/mentorship" element={
+              <ProtectedRoute>
+                <Mentorship />
+              </ProtectedRoute>
+            } />
+            <Route path="/entrepreneurship" element={
+              <ProtectedRoute>
+                <Entrepreneurship />
+              </ProtectedRoute>
+            } />
+            <Route path="/health-resources" element={
+              <ProtectedRoute>
+                <HealthResources />
+              </ProtectedRoute>
+            } />
+            <Route path="/safety-tools" element={
+              <ProtectedRoute>
+                <SafetyTools />
               </ProtectedRoute>
             } />
             
