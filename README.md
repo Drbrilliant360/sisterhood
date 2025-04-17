@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# Sisterhood - A Women's Support Community 🌸
 
-## Project info
+## About The Project
 
-**URL**: https://lovable.dev/projects/dd663252-fb89-4232-8581-b2e75907a9c8
+Sisterhood is a supportive community platform designed to empower women through connection, resources, and shared experiences. This GitHub repository contains the codebase for the Sisterhood web application.
 
-## How can I edit this code?
+**Key Features:**
+- 👩‍👩‍👧‍👧 Safe space for women to connect and share
+- 📚 Educational resources on health, career, and personal growth
+- 💬 Discussion forums on relevant topics
+- 🗓 Event calendar for meetups and workshops
+- 🔒 Privacy-focused design to protect members
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/dd663252-fb89-4232-8581-b2e75907a9c8) and start prompting.
+Before you begin, ensure you have met the following requirements:
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- MongoDB (for database)
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Drbrilliant360/sisterhood.git
+   cd sisterhood
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following:
+   ```
+   MONGODB_URI=your_mongodb_connection_string
+   SESSION_SECRET=your_session_secret
+   PORT=3000
+   ```
 
-Follow these steps:
+4. Run the application:
+   ```bash
+   npm start
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+The app will be running at `http://localhost:3000`.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Contributing
 
-# Step 3: Install the necessary dependencies.
-npm i
+We welcome contributions from the community! Here's how you can help:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**Edit a file directly in GitHub**
+Please read our [Contribution Guidelines](CONTRIBUTING.md) for more details.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+## Contact
 
-This project is built with:
+Project Maintainer: [Dr. Brilliant](https://github.com/Drbrilliant360)  
+Email: bryankachocho17@gmail.com
+Project Link: [https://github.com/Drbrilliant360/sisterhood](https://github.com/Drbrilliant360/sisterhood)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Acknowledgments
 
-## How can I deploy this project?
+Special thanks to all the contributors and women who have made this project possible.
 
-Simply open [Lovable](https://lovable.dev/projects/dd663252-fb89-4232-8581-b2e75907a9c8) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+💜 *Together we rise* 💜
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
