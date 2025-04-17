@@ -3,22 +3,48 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield, Bot } from 'lucide-react';
+import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield, Bot, Laptop } from 'lucide-react';
+import { 
+  NavigationMenu, 
+  NavigationMenuContent, 
+  NavigationMenuItem, 
+  NavigationMenuLink, 
+  NavigationMenuList, 
+  NavigationMenuTrigger, 
+  navigationMenuTriggerStyle 
+} from "@/components/ui/navigation-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleComingSoon = () => {
-    toast({
-      title: "Coming Soon!",
-      description: "This feature is still under development.",
-      duration: 3000,
-    });
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out successfully",
+        description: "You have been signed out of your account.",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error signing out",
+        description: "There was a problem signing out. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleDigitalSkillsRedirect = () => {
+    window.open('https://ujuzi-digital-nexus.lovable.app', '_blank');
   };
 
   return (
@@ -57,14 +83,55 @@ const Navbar = () => {
                 Hadija AI
               </span>
             </Link>
-            <Link to="/register" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
-              Register
-            </Link>
-            <Link to="/login">
-              <Button className="ml-4 bg-sisterhood-primary hover:bg-sisterhood-primary/90">
-                Login
+            
+            {/* Digital Skills Tab */}
+            <button 
+              onClick={handleDigitalSkillsRedirect}
+              className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium flex items-center"
+            >
+              <Laptop size={16} className="mr-1" />
+              Digital Skills
+            </button>
+
+            {user ? (
+              <Button onClick={handleSignOut} variant="outline" className="ml-4 border-sisterhood-primary text-sisterhood-primary hover:bg-sisterhood-primary/10">
+                Sign Out
               </Button>
-            </Link>
+            ) : (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sisterhood-primary">Account</NavigationMenuTrigger>
+                    <NavigationMenuContent className="min-w-[350px] bg-white p-4 shadow-lg rounded-md">
+                      <Tabs defaultValue="login">
+                        <TabsList className="w-full mb-4 bg-gray-100">
+                          <TabsTrigger value="login" className="flex-1">Login</TabsTrigger>
+                          <TabsTrigger value="register" className="flex-1">Register</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="login">
+                          <NavigationMenuLink asChild>
+                            <Link to="/login" className="w-full block">
+                              <Button className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90">
+                                Go to Login
+                              </Button>
+                            </Link>
+                          </NavigationMenuLink>
+                        </TabsContent>
+                        <TabsContent value="register">
+                          <NavigationMenuLink asChild>
+                            <Link to="/register" className="w-full block">
+                              <Button className="w-full bg-sisterhood-primary hover:bg-sisterhood-primary/90">
+                                Go to Register
+                              </Button>
+                            </Link>
+                          </NavigationMenuLink>
+                        </TabsContent>
+                      </Tabs>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            )}
           </div>
           
           {/* Mobile menu button */}
@@ -104,12 +171,33 @@ const Navbar = () => {
                 Hadija AI
               </span>
             </Link>
-            <Link to="/register" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
-              Register
-            </Link>
-            <Link to="/login" className="bg-sisterhood-primary text-white block px-3 py-2 rounded-md font-medium">
-              Login
-            </Link>
+            
+            {/* Digital Skills Tab for mobile */}
+            <button 
+              onClick={handleDigitalSkillsRedirect}
+              className="text-gray-700 hover:text-sisterhood-primary w-full text-left px-3 py-2 font-medium flex items-center"
+            >
+              <Laptop size={16} className="mr-1" />
+              Digital Skills
+            </button>
+            
+            {user ? (
+              <button 
+                onClick={handleSignOut}
+                className="w-full text-left bg-red-50 text-red-600 block px-3 py-2 rounded-md font-medium"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
+                  Login
+                </Link>
+                <Link to="/register" className="bg-sisterhood-primary text-white block px-3 py-2 rounded-md font-medium">
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
