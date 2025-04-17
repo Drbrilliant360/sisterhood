@@ -14,6 +14,11 @@ import Community from "./pages/Community";
 import Resources from "./pages/Resources";
 import Safety from "./pages/Safety";
 import HadijaAI from "./pages/HadijaAI";
+import About from "./pages/About";
+import Mentors from "./pages/Mentors";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import LearnMore from "./pages/LearnMore";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +34,11 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/mentors" element={<Mentors />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/learn-more" element={<LearnMore />} />
             
             {/* Protected routes */}
             <Route path="/dashboard" element={

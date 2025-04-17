@@ -36,7 +36,7 @@ const Index = () => {
                 Join the Sisterhood
               </button>
             </Link>
-            <Link to="/about">
+            <Link to="/learn-more">
               <button className="bg-white text-sisterhood-primary px-6 py-3 rounded-full font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
                 Learn More
               </button>
@@ -295,9 +295,9 @@ const Index = () => {
                 Join Now
               </button>
             </Link>
-            <Link to="/contact">
+            <Link to="/learn-more">
               <button className="bg-transparent text-white border-2 border-white px-8 py-4 rounded-full font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                Contact Us
+                Learn More
               </button>
             </Link>
           </div>
