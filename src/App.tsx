@@ -20,6 +20,10 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import LearnMore from "./pages/LearnMore";
 import NotFound from "./pages/NotFound";
+import Events from "./pages/Events";
+import Testimonials from "./pages/Testimonials";
+import Membership from "./pages/Membership";
+import BecomeMentor from "./pages/BecomeMentor";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +43,10 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/learn-more" element={<LearnMore />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/become-mentor" element={<BecomeMentor />} />
             
             {/* Protected routes */}
             <Route path="/dashboard" element={

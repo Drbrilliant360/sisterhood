@@ -106,9 +106,9 @@ const Privacy = () => {
               please contact us at:
             </p>
             <p className="mb-8">
-              <strong>Email:</strong> privacy@sisterhoodapp.com<br />
-              <strong>Address:</strong> 123 Women Empowerment Street, Lagos, Nigeria<br />
-              <strong>Phone:</strong> +234 123 456 7890
+              <strong>Email:</strong> bryankachocho17@gmail.com<br />
+              <strong>Address:</strong> 123 Women Empowerment Street, Dar es Salaam, Tanzania<br />
+              <strong>Phone:</strong> +255 716 183 812
             </p>
           </div>
         </div>
