@@ -8,8 +8,10 @@ import QuickAccessMenu from './components/QuickAccessMenu';
 import DailyInspiration from './components/DailyInspiration';
 import DashboardTabs from './components/DashboardTabs';
 
+type UserType = 'normal' | 'mentor' | 'admin';
+
 const Dashboard = () => {
-  const [userType, setUserType] = useState('normal'); // normal, mentor, admin
+  const [userType, setUserType] = useState<UserType>('normal'); // normal, mentor, admin
   
   // For demonstration, toggle between user types
   const toggleUserType = () => {
