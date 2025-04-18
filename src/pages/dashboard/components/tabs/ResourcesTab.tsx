@@ -62,7 +62,7 @@ const ResourcesTab: React.FC<ResourcesTabProps> = ({ userType }) => {
       duration: userType === 'normal' ? '15 pages' : '20 pages',
       iconType: 2,
       pricingType: 'premium'
-    },
+    }
   ];
 
   return (
