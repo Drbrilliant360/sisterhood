@@ -3,7 +3,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Bot, Image, Send, Mic, Brain, Users, FileText } from "lucide-react";
 import Navbar from '@/components/layout/Navbar';
@@ -12,35 +11,29 @@ import Footer from '@/components/layout/Footer';
 const HadijaAI = () => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState<Array<{role: string, content: string}>>([
-    { role: 'assistant', content: 'Hello! I\'m Hadija, your AI assistant. How can I help you today?' }
+    { role: 'assistant', content: 'Hello! I\'m Hadija, your AI assistant. I\'m here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have.' }
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const [aiTab, setAiTab] = useState('chat');
   const { toast } = useToast();
-  
-  const handleSendMessage = () => {
-    if (!message.trim()) return;
-    
-    setChatHistory([...chatHistory, { role: 'user', content: message }]);
+
+  const generateResponse = (userMessage: string) => {
     setIsLoading(true);
     
+    // Simulated AI response generation
     setTimeout(() => {
-      let response = '';
-      
-      if (message.toLowerCase().includes('mentor')) {
-        response = 'I can help you find a mentor. Based on your profile, I recommend someone with expertise in entrepreneurship who has a similar background.';
-      } else if (message.toLowerCase().includes('health') || message.toLowerCase().includes('safety')) {
-        response = 'Your health and safety are important. Here are some resources that might help you, or you can connect with our verified health experts.';
-      } else if (message.toLowerCase().includes('business') || message.toLowerCase().includes('entrepreneurship')) {
-        response = 'Looking to grow your business? I can recommend some courses, or connect you with successful entrepreneurs in our network.';
-      } else {
-        response = 'I\'m here to support your journey. Would you like information about mentorship, health resources, or entrepreneurship opportunities?';
-      }
+      const response = `Thank you for your question about "${userMessage}". I'd be happy to help you with that. As your AI assistant, I'm analyzing your query and providing relevant information and guidance based on our extensive knowledge base about entrepreneurship, health, safety, mentorship, and various other topics that might be relevant to you.`;
       
       setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
       setIsLoading(false);
       setMessage('');
     }, 1500);
+  };
+  
+  const handleSendMessage = () => {
+    if (!message.trim()) return;
+    
+    setChatHistory([...chatHistory, { role: 'user', content: message }]);
+    generateResponse(message);
   };
 
   const handleImageUpload = () => {

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -43,10 +42,6 @@ const Navbar = () => {
     }
   };
 
-  const handleDigitalSkillsRedirect = () => {
-    window.open('https://ujuzi-digital-nexus.lovable.app', '_blank');
-  };
-
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,14 +79,11 @@ const Navbar = () => {
               </span>
             </Link>
             
-            {/* Digital Skills Tab */}
-            <button 
-              onClick={handleDigitalSkillsRedirect}
-              className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium flex items-center"
-            >
+            {/* Digital Skills is now integrated into the dashboard */}
+            <Link to="/dashboard?tab=digital-skills" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium flex items-center">
               <Laptop size={16} className="mr-1" />
               Digital Skills
-            </button>
+            </Link>
 
             {user ? (
               <Button onClick={handleSignOut} variant="outline" className="ml-4 border-sisterhood-primary text-sisterhood-primary hover:bg-sisterhood-primary/10">
@@ -172,14 +164,11 @@ const Navbar = () => {
               </span>
             </Link>
             
-            {/* Digital Skills Tab for mobile */}
-            <button 
-              onClick={handleDigitalSkillsRedirect}
-              className="text-gray-700 hover:text-sisterhood-primary w-full text-left px-3 py-2 font-medium flex items-center"
-            >
+            {/* Digital Skills is now integrated into the dashboard */}
+            <Link to="/dashboard?tab=digital-skills" className="text-gray-700 hover:text-sisterhood-primary w-full text-left px-3 py-2 font-medium flex items-center">
               <Laptop size={16} className="mr-1" />
               Digital Skills
-            </button>
+            </Link>
             
             {user ? (
               <button 
