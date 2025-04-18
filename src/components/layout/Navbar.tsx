@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -43,13 +44,6 @@ const Navbar = () => {
     }
   };
 
-  const goToDigitalSkills = () => {
-    if (location.pathname === '/dashboard') {
-      return '/dashboard?tab=digital-skills';
-    }
-    return '/dashboard?tab=digital-skills';
-  };
-
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,7 +80,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            <Link to={goToDigitalSkills()} className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
+            <Link to="/digital-skills" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               Digital Skills
             </Link>
 
@@ -167,7 +161,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            <Link to={goToDigitalSkills()} className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
+            <Link to="/digital-skills" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
               Digital Skills
             </Link>
             

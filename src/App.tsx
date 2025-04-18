@@ -14,6 +14,7 @@ import Community from "./pages/Community";
 import Resources from "./pages/Resources";
 import Safety from "./pages/Safety";
 import HadijaAI from "./pages/HadijaAI";
+import DigitalSkills from "./pages/DigitalSkills";
 import About from "./pages/About";
 import Mentors from "./pages/Mentors";
 import Privacy from "./pages/Privacy";
@@ -76,6 +77,11 @@ const App = () => (
             <Route path="/hadija-ai" element={
               <ProtectedRoute>
                 <HadijaAI />
+              </ProtectedRoute>
+            } />
+            <Route path="/digital-skills" element={
+              <ProtectedRoute>
+                <DigitalSkills />
               </ProtectedRoute>
             } />
             <Route path="/mentorship" element={
