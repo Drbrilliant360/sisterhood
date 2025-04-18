@@ -5,7 +5,9 @@ import Footer from '@/components/layout/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Users, BookOpen, Calendar, Award, Star, MessageCircle } from 'lucide-react';
+import { Users, BookOpen, Calendar, Award, Star, MessageCircle, CreditCard, Wallet } from 'lucide-react';
+import PricingBadge from '@/components/PricingBadge';
+import SubscriptionPlans from '@/components/SubscriptionPlans';
 
 const Mentorship = () => {
   return (
@@ -33,10 +35,13 @@ const Mentorship = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Users className="mr-2 text-sisterhood-primary" />
-                    One-on-One Mentorship
-                  </CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="flex items-center">
+                      <Users className="mr-2 text-sisterhood-primary" />
+                      One-on-One Mentorship
+                    </CardTitle>
+                    <PricingBadge type="paid" price={20} />
+                  </div>
                   <CardDescription>Personal guidance tailored to your needs</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -57,16 +62,32 @@ const Mentorship = () => {
                       <span>Direct messaging support</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Apply Now</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Apply Now</Button>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <CreditCard className="h-3 w-3" /> PayPal
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> M-Pesa
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> Tigo Pesa
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
               
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Users className="mr-2 text-sisterhood-primary" />
-                    Group Mentorship
-                  </CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="flex items-center">
+                      <Users className="mr-2 text-sisterhood-primary" />
+                      Group Mentorship
+                    </CardTitle>
+                    <PricingBadge type="paid" price={10} />
+                  </div>
                   <CardDescription>Learn and grow with peers</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -87,16 +108,32 @@ const Mentorship = () => {
                       <span>Shared resources and networks</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Join a Group</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Join a Group</Button>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <CreditCard className="h-3 w-3" /> PayPal
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> M-Pesa
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> Tigo Pesa
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
               
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <BookOpen className="mr-2 text-sisterhood-primary" />
-                    Entrepreneurship Track
-                  </CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="flex items-center">
+                      <BookOpen className="mr-2 text-sisterhood-primary" />
+                      Entrepreneurship Track
+                    </CardTitle>
+                    <PricingBadge type="premium" />
+                  </div>
                   <CardDescription>Build and grow your business</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -117,12 +154,28 @@ const Mentorship = () => {
                       <span>Funding opportunity insights</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Explore Program</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Explore Program</Button>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <CreditCard className="h-3 w-3" /> PayPal
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> M-Pesa
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> Tigo Pesa
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </div>
         </section>
+        
+        {/* Subscription Plans */}
+        <SubscriptionPlans />
         
         {/* Featured Mentors */}
         <section className="py-16 bg-sisterhood-light">
@@ -139,7 +192,10 @@ const Mentorship = () => {
                   />
                 </div>
                 <CardHeader>
-                  <CardTitle>Sarah Johnson</CardTitle>
+                  <div className="flex justify-between">
+                    <CardTitle>Sarah Johnson</CardTitle>
+                    <PricingBadge type="premium" />
+                  </div>
                   <CardDescription>Business Development Expert</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -167,7 +223,10 @@ const Mentorship = () => {
                   />
                 </div>
                 <CardHeader>
-                  <CardTitle>Dr. Amina Nkosi</CardTitle>
+                  <div className="flex justify-between">
+                    <CardTitle>Dr. Amina Nkosi</CardTitle>
+                    <PricingBadge type="paid" price={20} />
+                  </div>
                   <CardDescription>Healthcare Professional</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -195,7 +254,10 @@ const Mentorship = () => {
                   />
                 </div>
                 <CardHeader>
-                  <CardTitle>Maya Osei</CardTitle>
+                  <div className="flex justify-between">
+                    <CardTitle>Maya Osei</CardTitle>
+                    <PricingBadge type="free" />
+                  </div>
                   <CardDescription>Safety & Security Expert</CardDescription>
                 </CardHeader>
                 <CardContent>

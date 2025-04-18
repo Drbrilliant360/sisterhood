@@ -5,7 +5,8 @@ import Footer from '@/components/layout/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Briefcase, Coins, LineChart, Award, Users, BookOpen } from 'lucide-react';
+import { Briefcase, Coins, LineChart, Award, Users, BookOpen, CreditCard, Wallet } from 'lucide-react';
+import PricingBadge from '@/components/PricingBadge';
 
 const Entrepreneurship = () => {
   return (
@@ -33,8 +34,11 @@ const Entrepreneurship = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow h-full">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
-                    <Briefcase className="h-6 w-6 text-sisterhood-primary" />
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
+                      <Briefcase className="h-6 w-6 text-sisterhood-primary" />
+                    </div>
+                    <PricingBadge type="free" />
                   </div>
                   <CardTitle>Business Development</CardTitle>
                   <CardDescription>For new and early-stage entrepreneurs</CardDescription>
@@ -69,14 +73,19 @@ const Entrepreneurship = () => {
                       <span>Legal and registration support</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Apply Now</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Apply Now</Button>
+                  </div>
                 </CardContent>
               </Card>
               
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow h-full">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
-                    <Coins className="h-6 w-6 text-sisterhood-primary" />
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
+                      <Coins className="h-6 w-6 text-sisterhood-primary" />
+                    </div>
+                    <PricingBadge type="paid" price={20} />
                   </div>
                   <CardTitle>Funding & Investment</CardTitle>
                   <CardDescription>Access to capital for growth</CardDescription>
@@ -111,14 +120,30 @@ const Entrepreneurship = () => {
                       <span>Grant application support</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Learn More</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Subscribe</Button>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <CreditCard className="h-3 w-3" /> PayPal
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> M-Pesa
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> Tigo Pesa
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
               
               <Card className="border-sisterhood-primary/20 hover:shadow-md transition-shadow h-full">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
-                    <LineChart className="h-6 w-6 text-sisterhood-primary" />
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-sisterhood-light rounded-full flex items-center justify-center mb-4">
+                      <LineChart className="h-6 w-6 text-sisterhood-primary" />
+                    </div>
+                    <PricingBadge type="premium" />
                   </div>
                   <CardTitle>Business Growth</CardTitle>
                   <CardDescription>Scale your existing business</CardDescription>
@@ -153,7 +178,20 @@ const Entrepreneurship = () => {
                       <span>Digital transformation</span>
                     </li>
                   </ul>
-                  <Button className="w-full">Join Program</Button>
+                  <div className="space-y-3">
+                    <Button className="w-full">Subscribe - $50/month</Button>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <CreditCard className="h-3 w-3" /> PayPal
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> M-Pesa
+                      </span>
+                      <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded-full">
+                        <Wallet className="h-3 w-3" /> Tigo Pesa
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -223,7 +261,10 @@ const Entrepreneurship = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Pitch Night: Tanzania Edition</CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle>Pitch Night: Tanzania Edition</CardTitle>
+                    <PricingBadge type="paid" price={5} />
+                  </div>
                   <CardDescription>May 15, 2025 • 6:00 PM - 9:00 PM</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -236,7 +277,10 @@ const Entrepreneurship = () => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle>Digital Marketing Workshop</CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle>Digital Marketing Workshop</CardTitle>
+                    <PricingBadge type="free" />
+                  </div>
                   <CardDescription>June 2, 2025 • 10:00 AM - 3:00 PM</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -249,7 +293,10 @@ const Entrepreneurship = () => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle>Women Founders Network</CardTitle>
+                  <div className="flex justify-between items-start">
+                    <CardTitle>Women Founders Network</CardTitle>
+                    <PricingBadge type="premium" />
+                  </div>
                   <CardDescription>Monthly • First Thursday • 5:30 PM</CardDescription>
                 </CardHeader>
                 <CardContent>
