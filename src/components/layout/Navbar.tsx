@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield, Bot, Laptop } from 'lucide-react';
+import { Menu, X, User, MessageCircle, BookOpen, Bell, Shield, Bot } from 'lucide-react';
 import { 
   NavigationMenu, 
   NavigationMenuContent, 
@@ -19,6 +19,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { toast } = useToast();
   const { user, signOut } = useAuth();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,6 +43,13 @@ const Navbar = () => {
     }
   };
 
+  const goToDigitalSkills = () => {
+    if (location.pathname === '/dashboard') {
+      return '/dashboard?tab=digital-skills';
+    }
+    return '/dashboard?tab=digital-skills';
+  };
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,7 +63,6 @@ const Navbar = () => {
             </Link>
           </div>
           
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               Home
@@ -79,9 +86,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            {/* Digital Skills is now integrated into the dashboard */}
-            <Link to="/dashboard?tab=digital-skills" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium flex items-center">
-              <Laptop size={16} className="mr-1" />
+            <Link to={goToDigitalSkills()} className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               Digital Skills
             </Link>
 
@@ -126,7 +131,6 @@ const Navbar = () => {
             )}
           </div>
           
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
@@ -138,7 +142,6 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg rounded-b-lg">
@@ -164,9 +167,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            {/* Digital Skills is now integrated into the dashboard */}
-            <Link to="/dashboard?tab=digital-skills" className="text-gray-700 hover:text-sisterhood-primary w-full text-left px-3 py-2 font-medium flex items-center">
-              <Laptop size={16} className="mr-1" />
+            <Link to={goToDigitalSkills()} className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
               Digital Skills
             </Link>
             
