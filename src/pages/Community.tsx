@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -39,7 +40,6 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import PricingBadge from '@/components/PricingBadge';
 
 const Community = () => {
   const { toast } = useToast();
@@ -132,30 +132,25 @@ const Community = () => {
                         name: "Women in Tech",
                         members: 1250,
                         icon: <Star size={16} className="text-yellow-500" />,
-                        bgColor: "bg-sisterhood-purple",
-                        subscriptionType: "premium"
+                        bgColor: "bg-sisterhood-purple"
                       },
                       {
                         name: "Entrepreneur Sisters",
                         members: 980,
                         icon: <HeartHandshake size={16} className="text-sisterhood-primary" />,
-                        bgColor: "bg-sisterhood-pink",
-                        subscriptionType: "premium"
+                        bgColor: "bg-sisterhood-pink"
                       },
                       {
                         name: "Health & Wellness",
                         members: 765,
                         icon: <Shield size={16} className="text-green-600" />,
-                        bgColor: "bg-sisterhood-green",
-                        subscriptionType: "free"
+                        bgColor: "bg-sisterhood-green"
                       },
                       {
                         name: "Lagos Connect",
                         members: 620,
                         icon: <MapPin size={16} className="text-sisterhood-accent" />,
-                        bgColor: "bg-sisterhood-orange",
-                        subscriptionType: "paid",
-                        price: 10
+                        bgColor: "bg-sisterhood-orange"
                       }
                     ].map((group, index) => (
                       <div key={index} className="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
@@ -458,56 +453,49 @@ const Community = () => {
                       members: 1250,
                       description: "For women in technology to share experiences, opportunities, and mentorship.",
                       type: "Interest-Based",
-                      bgColor: "bg-sisterhood-purple",
-                      subscriptionType: "premium"
+                      bgColor: "bg-sisterhood-purple"
                     },
                     {
                       name: "Lagos Connect",
                       members: 620,
                       description: "Local connections and meetups for women in Lagos, Nigeria.",
                       type: "Location-Based",
-                      bgColor: "bg-sisterhood-orange",
-                      subscriptionType: "free"
+                      bgColor: "bg-sisterhood-orange"
                     },
                     {
                       name: "Mental Health Support",
                       members: 430,
                       description: "A private support group for women dealing with mental health challenges.",
                       type: "Private Support",
-                      bgColor: "bg-sisterhood-green",
-                      subscriptionType: "paid",
-                      price: 10
+                      bgColor: "bg-sisterhood-green"
                     },
                     {
                       name: "Entrepreneur Sisters",
                       members: 980,
                       description: "Resources, networking, and support for women entrepreneurs.",
                       type: "Interest-Based",
-                      bgColor: "bg-sisterhood-pink",
-                      subscriptionType: "premium"
+                      bgColor: "bg-sisterhood-pink"
                     }
                   ].map((group, index) => (
                     <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer border-sisterhood-primary/20">
                       <CardContent className="p-5">
-                        <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center">
                           <div className={`w-12 h-12 rounded-full ${group.bgColor} flex items-center justify-center`}>
                             <Users size={20} className="text-white" />
                           </div>
-                          <PricingBadge 
-                            type={group.subscriptionType as 'free' | 'paid' | 'premium'} 
-                            price={group.price}
-                          />
-                        </div>
-                        <h3 className="font-semibold">{group.name}</h3>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <Users size={12} className="mr-1" />
-                          <span>{group.members.toLocaleString()} members</span>
-                          <Badge 
-                            variant="outline" 
-                            className="ml-2 text-[10px]"
-                          >
-                            {group.type}
-                          </Badge>
+                          <div className="ml-3">
+                            <h3 className="font-semibold">{group.name}</h3>
+                            <div className="flex items-center text-xs text-gray-500">
+                              <Users size={12} className="mr-1" />
+                              <span>{group.members.toLocaleString()} members</span>
+                              <Badge 
+                                variant="outline" 
+                                className="ml-2 text-[10px]"
+                              >
+                                {group.type}
+                              </Badge>
+                            </div>
+                          </div>
                         </div>
                         <p className="text-sm text-gray-600 mt-3">
                           {group.description}

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Image, Send, Mic, Brain, Users, FileText } from "lucide-react";
+import { Bot, Image, Send, Mic, Brain, Users, FileText } from "lucide-react";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
@@ -19,37 +20,15 @@ const HadijaAI = () => {
   const { toast } = useToast();
 
   const generateResponse = (userMessage: string) => {
-    if (!userMessage.trim()) {
-      toast({
-        title: "Empty message",
-        description: "Please enter a message before sending.",
-        duration: 3000,
-      });
-      return;
-    }
-
     setIsLoading(true);
-    console.log("Generating response for:", userMessage);
     
-    // Simulated AI response generation with more specific responses
+    // Simulated AI response generation
     setTimeout(() => {
-      let response = "";
-      
-      if (userMessage.toLowerCase().includes("mentor")) {
-        response = "I can help you find a mentor or provide guidance on mentorship programs. Would you like to know more about our mentorship opportunities?";
-      } else if (userMessage.toLowerCase().includes("business") || userMessage.toLowerCase().includes("entrepreneur")) {
-        response = "I can provide information about starting a business, finding funding, or connecting with other entrepreneurs. What specific aspect would you like to learn more about?";
-      } else if (userMessage.toLowerCase().includes("health")) {
-        response = "I can share resources about women's health, wellness programs, and healthcare access. What specific health topic are you interested in?";
-      } else {
-        response = "I understand you're asking about " + userMessage + ". Could you please be more specific about what you'd like to know? I can help with mentorship, entrepreneurship, health, and safety topics.";
-      }
+      const response = `Thank you for your question about "${userMessage}". I'd be happy to help you with that. As your AI assistant, I'm analyzing your query and providing relevant information and guidance based on our extensive knowledge base about entrepreneurship, health, safety, mentorship, and various other topics that might be relevant to you.`;
       
       setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
       setIsLoading(false);
       setMessage('');
-      
-      console.log("Response generated:", response);
     }, 1500);
   };
   
