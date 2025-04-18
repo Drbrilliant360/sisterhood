@@ -24,11 +24,11 @@ const DashboardTabs = ({ userType }: DashboardTabsProps) => {
       </TabsContent>
       
       <TabsContent value="resources">
-        <ResourcesTab />
+        <ResourcesTab userType={userType} />
       </TabsContent>
       
       <TabsContent value="activities">
-        <ActivitiesTab />
+        <ActivitiesTab userType={userType} />
       </TabsContent>
       
       <TabsContent value="digital-skills">

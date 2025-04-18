@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Bot, Image, Send, Mic, Brain, Users, FileText } from "lucide-react";
 import Navbar from '@/components/layout/Navbar';
@@ -14,6 +16,7 @@ const HadijaAI = () => {
     { role: 'assistant', content: 'Hello! I\'m Hadija, your AI assistant. I\'m here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have.' }
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('chat');
   const { toast } = useToast();
 
   const generateResponse = (userMessage: string) => {
@@ -79,7 +82,7 @@ const HadijaAI = () => {
             <p className="text-sisterhood-neutral mt-2">Your intelligent assistant for mentorship, health, and entrepreneurship</p>
           </div>
           
-          <Tabs defaultValue="chat" className="w-full" onValueChange={setAiTab}>
+          <Tabs defaultValue="chat" className="w-full" onValueChange={(value) => setActiveTab(value)}>
             <TabsList className="grid grid-cols-3 mb-8">
               <TabsTrigger value="chat" className="flex items-center gap-2">
                 <Bot size={18} />
