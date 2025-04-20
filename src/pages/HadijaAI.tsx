@@ -13,29 +13,49 @@ import Footer from '@/components/layout/Footer';
 const HadijaAI = () => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState<Array<{role: string, content: string}>>([
-    { role: 'assistant', content: 'Hello! I\'m Hadija, your AI assistant. I\'m here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have.' }
+    { role: 'assistant', content: "Hello! I'm Hadija, your AI assistant. I'm here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have." }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('chat');
   const { toast } = useToast();
 
-  const generateResponse = (userMessage: string) => {
+  // Send chat to Supabase edge function, get response, and append to history
+  const generateResponse = async (userMessage: string) => {
     setIsLoading(true);
-    
-    // Simulated AI response generation
-    setTimeout(() => {
-      const response = `Thank you for your question about "${userMessage}". I'd be happy to help you with that. As your AI assistant, I'm analyzing your query and providing relevant information and guidance based on our extensive knowledge base about entrepreneurship, health, safety, mentorship, and various other topics that might be relevant to you.`;
-      
-      setChatHistory(prev => [...prev, { role: 'assistant', content: response }]);
+    try {
+      const updatedHistory = [...chatHistory, { role: 'user', content: userMessage }];
+      const resp = await fetch('/functions/v1/hadija-openrouter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chatHistory: updatedHistory }),
+      });
+      const data = await resp.json();
+      if (resp.ok && data.reply) {
+        setChatHistory([...updatedHistory, { role: 'assistant', content: data.reply }]);
+      } else {
+        setChatHistory([...updatedHistory, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
+        toast({
+          title: "AI Error",
+          description: data.error || "Could not generate a response. Please try again.",
+          duration: 3200,
+        });
+      }
+    } catch (e: any) {
+      setChatHistory([...chatHistory, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
+      toast({
+        title: "Network Error",
+        description: "Sorry, there was a problem talking to the AI.",
+        duration: 3200,
+      });
+    } finally {
       setIsLoading(false);
       setMessage('');
-    }, 1500);
+    }
   };
-  
+
   const handleSendMessage = () => {
     if (!message.trim()) return;
-    
-    setChatHistory([...chatHistory, { role: 'user', content: message }]);
+    setChatHistory(prev => ([...prev, { role: 'user', content: message }]));
     generateResponse(message);
   };
 
