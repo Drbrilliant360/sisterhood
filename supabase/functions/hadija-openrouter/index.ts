@@ -10,14 +10,16 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+  
   try {
     const { chatHistory } = await req.json();
+    console.log("Received chat history:", JSON.stringify(chatHistory));
 
     // Prepare messages as expected by OpenRouter.
-    // Example: [{ role: "user"|"assistant", content: "..." }, ...]
     const messages = chatHistory.map(({ role, content }: { role: string; content: string }) => ({
       role,
       content,
@@ -28,21 +30,26 @@ serve(async (req) => {
       messages,
     };
 
+    console.log("Sending request to OpenRouter with body:", JSON.stringify(body));
+
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://dd663252-fb89-4232-8581-b2e75907a9c8.lovableproject.com", // Replace with your actual deployed domain if you have one.
+        "HTTP-Referer": "https://dd663252-fb89-4232-8581-b2e75907a9c8.lovableproject.com",
         "X-Title": "SisterhoodAI-Hadija",
       },
       body: JSON.stringify(body),
     });
 
+    console.log("OpenRouter response status:", response.status);
+    
     const json = await response.json();
+    console.log("OpenRouter response:", JSON.stringify(json));
 
     if (!response.ok) {
-      throw new Error(json.error ?? "OpenRouter error");
+      throw new Error(json.error?.message || json.error || "OpenRouter error");
     }
 
     const aiReply = json.choices?.[0]?.message?.content ?? "Sorry, I could not generate a response.";
@@ -50,6 +57,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
+    console.error("Error in hadija-openrouter function:", err);
     return new Response(JSON.stringify({ error: err.message || "Error processing request" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

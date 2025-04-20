@@ -24,12 +24,21 @@ const HadijaAI = () => {
     setIsLoading(true);
     try {
       const updatedHistory = [...chatHistory, { role: 'user', content: userMessage }];
-      const resp = await fetch('/functions/v1/hadija-openrouter', {
+      
+      // Log request before sending
+      console.log("Sending request to edge function:", JSON.stringify({ chatHistory: updatedHistory }));
+      
+      const resp = await fetch('https://dd663252-fb89-4232-8581-b2e75907a9c8.functions.supabase.co/hadija-openrouter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chatHistory: updatedHistory }),
       });
+      
+      console.log("Response status:", resp.status);
+      
       const data = await resp.json();
+      console.log("Response data:", data);
+      
       if (resp.ok && data.reply) {
         setChatHistory([...updatedHistory, { role: 'assistant', content: data.reply }]);
       } else {
@@ -41,10 +50,11 @@ const HadijaAI = () => {
         });
       }
     } catch (e: any) {
-      setChatHistory([...chatHistory, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
+      console.error("Error calling Hadija AI:", e);
+      setChatHistory([...chatHistory, { role: 'user', content: message }, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
       toast({
         title: "Network Error",
-        description: "Sorry, there was a problem talking to the AI.",
+        description: "Sorry, there was a problem talking to the AI: " + (e.message || "Unknown error"),
         duration: 3200,
       });
     } finally {
