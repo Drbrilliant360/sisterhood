@@ -112,16 +112,16 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin className="mr-2 mt-1 text-sisterhood-primary" size={18} />
                 <span className="text-gray-300">
-                  123 Women Empowerment Street, Lagos, Nigeria
+                  123 Women Empowerment Street, Dar es Salaam, Tanzania
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 text-sisterhood-primary" size={18} />
-                <span className="text-gray-300">+234 123 456 7890</span>
+                <span className="text-gray-300">+255 716 183 812</span>
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 text-sisterhood-primary" size={18} />
-                <span className="text-gray-300">info@sisterhoodapp.com</span>
+                <span className="text-gray-300">bryankachocho17@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -138,3 +138,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
