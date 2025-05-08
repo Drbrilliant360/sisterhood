@@ -29,6 +29,7 @@ import Mentorship from "./pages/Mentorship";
 import Entrepreneurship from "./pages/Entrepreneurship";
 import HealthResources from "./pages/HealthResources";
 import SafetyTools from "./pages/SafetyTools";
+import Groups from "./pages/Groups";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +103,11 @@ const App = () => (
             <Route path="/safety-tools" element={
               <ProtectedRoute>
                 <SafetyTools />
+              </ProtectedRoute>
+            } />
+            <Route path="/groups" element={
+              <ProtectedRoute>
+                <Groups />
               </ProtectedRoute>
             } />
             
