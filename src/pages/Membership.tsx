@@ -51,11 +51,13 @@ const Membership = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.from('membership_applications').insert({
+      const { error } = await supabase.from('membership_applications' as any).insert({
         user_id: user.id,
         reason: values.reason,
         background: values.background || null,
         expectations: values.expectations || null,
+        full_name: user.user_metadata?.full_name || 'Unknown',
+        email: user.email || 'unknown@example.com',
       });
 
       if (error) throw error;

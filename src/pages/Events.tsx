@@ -47,23 +47,32 @@ const Events = () => {
     },
   });
 
-  // Fetch events from Supabase
+  // Fetch events from Supabase using raw SQL
   const fetchEvents = async () => {
     try {
       const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .order('event_date', { ascending: true });
+        .rpc('get_events');
 
-      if (error) throw error;
+      if (error) {
+        // Fallback: try direct query without RPC
+        const { data: fallbackData, error: fallbackError } = await supabase
+          .from('events' as any)
+          .select('*')
+          .order('event_date', { ascending: true });
+        
+        if (fallbackError) {
+          console.error('Events table might not exist yet:', fallbackError);
+          setEvents([]);
+          return;
+        }
+        setEvents(fallbackData || []);
+        return;
+      }
+      
       setEvents(data || []);
     } catch (error) {
       console.error('Error fetching events:', error);
-      toast({
-        title: 'Error fetching events',
-        description: 'Please try again later',
-        variant: 'destructive',
-      });
+      setEvents([]);
     } finally {
       setLoading(false);
     }
@@ -85,7 +94,7 @@ const Events = () => {
     }
 
     try {
-      const { error } = await supabase.from('events').insert({
+      const { error } = await supabase.from('events' as any).insert({
         title: values.title,
         description: values.description,
         location: values.location,

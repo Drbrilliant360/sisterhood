@@ -79,17 +79,26 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { data: allGroups, error: groupsError } = await supabase
         .from('chat_groups')
-        .select('*, group_members(user_id)');
+        .select('*');
       
       if (groupsError) throw groupsError;
 
-      // Transform data to include member count
-      const processedGroups = allGroups.map((group: any) => ({
-        ...group,
-        memberCount: group.group_members?.length || 0
-      }));
+      // Fetch member counts separately
+      const groupsWithCounts = await Promise.all(
+        (allGroups || []).map(async (group) => {
+          const { count } = await supabase
+            .from('group_members')
+            .select('*', { count: 'exact', head: true })
+            .eq('group_id', group.id);
+          
+          return {
+            ...group,
+            memberCount: count || 0
+          };
+        })
+      );
       
-      setGroups(processedGroups);
+      setGroups(groupsWithCounts);
     } catch (error: any) {
       console.error('Error fetching groups:', error);
       toast({
@@ -107,17 +116,31 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
     
     setLoadingMembers(true);
     try {
-      const { data, error } = await supabase
+      // First get the group members
+      const { data: membersData, error: membersError } = await supabase
         .from('group_members')
-        .select(`
-          *,
-          profile:profiles(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('group_id', groupId);
       
-      if (error) throw error;
+      if (membersError) throw membersError;
+
+      // Then get profiles for each member
+      const membersWithProfiles = await Promise.all(
+        (membersData || []).map(async (member) => {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name, avatar_url')
+            .eq('id', member.user_id)
+            .single();
+          
+          return {
+            ...member,
+            profile: profile || { full_name: 'Anonymous', avatar_url: null }
+          };
+        })
+      );
       
-      setGroupMembers(data || []);
+      setGroupMembers(membersWithProfiles);
     } catch (error: any) {
       console.error('Error fetching group members:', error);
       toast({
@@ -135,18 +158,32 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
     
     setLoadingMessages(true);
     try {
-      const { data, error } = await supabase
+      // First get the messages
+      const { data: messagesData, error: messagesError } = await supabase
         .from('messages')
-        .select(`
-          *,
-          profile:profiles(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('group_id', groupId)
         .order('created_at', { ascending: true });
       
-      if (error) throw error;
+      if (messagesError) throw messagesError;
+
+      // Then get profiles for each message
+      const messagesWithProfiles = await Promise.all(
+        (messagesData || []).map(async (message) => {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name, avatar_url')
+            .eq('id', message.user_id)
+            .single();
+          
+          return {
+            ...message,
+            profile: profile || { full_name: 'Anonymous', avatar_url: null }
+          };
+        })
+      );
       
-      setMessages(data || []);
+      setMessages(messagesWithProfiles);
       
       // Subscribe to new messages
       const channel = supabase
@@ -168,8 +205,8 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
             
             const newMessage = {
               ...payload.new,
-              profile: profiles
-            };
+              profile: profiles || { full_name: 'Anonymous', avatar_url: null }
+            } as Message;
             
             setMessages(current => [...current, newMessage]);
           }
