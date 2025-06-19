@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,7 +53,7 @@ const Testimonials = () => {
 
       // Get user profiles for the testimonials
       if (data && data.length > 0) {
-        const userIds = [...new Set(data.map((t: any) => t.user_id))];
+        const userIds = [...new Set(data.map((t: any) => t.user_id as string))];
         const { data: profiles, error: profilesError } = await supabase
           .from('profiles')
           .select('id, full_name, avatar_url')
