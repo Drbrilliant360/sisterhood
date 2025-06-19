@@ -17,12 +17,12 @@ const LavinaAI = () => {
         <div className="max-w-5xl mx-auto">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-sisterhood-primary">Lavina AI</h1>
-            <p className="text-sisterhood-neutral mt-2">Your intelligent assistant for mentorship, health, and entrepreneurship</p>
+            <p className="text-sisterhood-neutral mt-2">Your intelligent assistant powered by Grok for mentorship, health, and entrepreneurship</p>
           </div>
           <Tabs defaultValue="chat" className="w-full" onValueChange={(value) => setActiveTab(value)}>
             <TabsList className="grid grid-cols-3 mb-8">
               <TabsTrigger value="chat" className="flex items-center gap-2">
-                <span>Virtual Assistant</span>
+                <span>AI Assistant (Grok)</span>
               </TabsTrigger>
               <TabsTrigger value="matching" className="flex items-center gap-2">
                 <span>Mentor Matching</span>
