@@ -25,52 +25,65 @@ const HadijaChat: React.FC<HadijaChatProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Send chat to Supabase edge function, get response, and append to history
-  const generateResponse = async (userMessage: string) => {
-    setIsLoading(true);
-    try {
-      const updatedHistory = [...chatHistory, { role: 'user', content: userMessage }];
-      // Log request before sending
-      console.log("Sending request to edge function:", JSON.stringify({ chatHistory: updatedHistory }));
-      const resp = await fetch('https://dd663252-fb89-4232-8581-b2e75907a9c8.functions.supabase.co/hadija-openrouter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chatHistory: updatedHistory }),
-      });
-
-      console.log("Response status:", resp.status);
-
-      const data = await resp.json();
-      console.log("Response data:", data);
-
-      if (resp.ok && data.reply) {
-        setChatHistory([...updatedHistory, { role: 'assistant', content: data.reply }]);
-      } else {
-        setChatHistory([...updatedHistory, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
-        toast({
-          title: "AI Error",
-          description: data.error || "Could not generate a response. Please try again.",
-          duration: 3200,
-        });
-      }
-    } catch (e: any) {
-      console.error("Error calling Hadija AI:", e);
-      setChatHistory([...chatHistory, { role: 'user', content: message }, { role: 'assistant', content: "Sorry, I couldn't answer that. Please try again later." }]);
-      toast({
-        title: "Network Error",
-        description: "Sorry, there was a problem talking to the AI: " + (e.message || "Unknown error"),
-        duration: 3200,
-      });
-    } finally {
-      setIsLoading(false);
-      setMessage('');
+  // Built-in response generation using pattern matching and predefined responses
+  const generateBuiltInResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Health-related responses
+    if (lowerMessage.includes('health') || lowerMessage.includes('wellness') || lowerMessage.includes('medical')) {
+      return "For health and wellness, I recommend maintaining a balanced diet, regular exercise, and adequate sleep. Always consult with healthcare professionals for specific medical concerns. Would you like tips on any particular aspect of health?";
     }
+    
+    // Safety-related responses
+    if (lowerMessage.includes('safety') || lowerMessage.includes('security') || lowerMessage.includes('protection')) {
+      return "Your safety is paramount. For personal safety, always trust your instincts, stay aware of your surroundings, and have emergency contacts readily available. For digital safety, use strong passwords and be cautious with personal information online. What specific safety concerns can I help you with?";
+    }
+    
+    // Entrepreneurship responses
+    if (lowerMessage.includes('business') || lowerMessage.includes('entrepreneur') || lowerMessage.includes('startup')) {
+      return "Starting a business requires careful planning, market research, and financial preparation. Key steps include validating your idea, creating a business plan, securing funding, and building a strong network. What aspect of entrepreneurship would you like to explore further?";
+    }
+    
+    // Mentorship responses
+    if (lowerMessage.includes('mentor') || lowerMessage.includes('guidance') || lowerMessage.includes('advice')) {
+      return "Mentorship is invaluable for personal and professional growth. A good mentor provides guidance, shares experience, and helps you navigate challenges. Consider what specific areas you'd like mentorship in, and don't hesitate to reach out to potential mentors in your field.";
+    }
+    
+    // Education and skills
+    if (lowerMessage.includes('learn') || lowerMessage.includes('skill') || lowerMessage.includes('education')) {
+      return "Continuous learning is essential for personal growth. Focus on developing both technical skills relevant to your field and soft skills like communication and leadership. Online courses, workshops, and hands-on practice are great ways to build new competencies.";
+    }
+    
+    // Greetings
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+      return "Hello! It's wonderful to connect with you. I'm here to support you on your journey. Whether you need advice on health, safety, business, or personal development, I'm ready to help. What's on your mind today?";
+    }
+    
+    // Questions about capabilities
+    if (lowerMessage.includes('what can you') || lowerMessage.includes('help me') || lowerMessage.includes('can you')) {
+      return "I'm designed to assist you with a wide range of topics including health and wellness, personal safety, entrepreneurship, career development, and general life guidance. I can provide advice, share resources, and help you think through challenges. What specific area would you like support with?";
+    }
+    
+    // Default response for general queries
+    return "That's an interesting question! While I focus primarily on health, safety, entrepreneurship, and mentorship, I'm here to help however I can. Could you tell me more about what specific guidance or support you're looking for? This will help me provide you with the most relevant assistance.";
   };
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
-    setChatHistory(prev => ([...prev, { role: 'user', content: message }]));
-    generateResponse(message);
+    
+    setIsLoading(true);
+    const userMessage = message;
+    
+    // Add user message to chat history
+    setChatHistory(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessage('');
+    
+    // Simulate processing time for better UX
+    setTimeout(() => {
+      const aiResponse = generateBuiltInResponse(userMessage);
+      setChatHistory(prev => [...prev, { role: 'assistant', content: aiResponse }]);
+      setIsLoading(false);
+    }, 1000);
   };
 
   const handleImageUpload = () => {
