@@ -51,7 +51,8 @@ const Membership = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.from('membership_applications' as any).insert({
+      // Use type assertion to bypass TypeScript table recognition issue
+      const { error } = await (supabase as any).from('membership_applications').insert({
         user_id: user.id,
         reason: values.reason,
         background: values.background || null,

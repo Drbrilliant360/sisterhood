@@ -42,8 +42,8 @@ const Testimonials = () => {
   // Fetch testimonials and user profiles
   const fetchTestimonials = async () => {
     try {
-      // Get approved testimonials
-      const { data, error } = await supabase
+      // Get approved testimonials using type assertion
+      const { data, error } = await (supabase as any)
         .from('testimonials')
         .select('*')
         .eq('is_approved', true)
@@ -54,7 +54,7 @@ const Testimonials = () => {
 
       // Get user profiles for the testimonials
       if (data && data.length > 0) {
-        const userIds = [...new Set(data.map(t => t.user_id))];
+        const userIds = [...new Set(data.map((t: any) => t.user_id))];
         const { data: profiles, error: profilesError } = await supabase
           .from('profiles')
           .select('id, full_name, avatar_url')
@@ -62,7 +62,7 @@ const Testimonials = () => {
 
         if (profilesError) throw profilesError;
 
-        const profilesMap = (profiles || []).reduce((acc, profile) => {
+        const profilesMap = (profiles || []).reduce((acc: any, profile: any) => {
           acc[profile.id] = profile;
           return acc;
         }, {});
@@ -97,7 +97,8 @@ const Testimonials = () => {
     }
 
     try {
-      const { error } = await supabase.from('testimonials').insert({
+      // Use type assertion to bypass TypeScript table recognition issue
+      const { error } = await (supabase as any).from('testimonials').insert({
         user_id: user.id,
         content: values.content,
         rating: values.rating,

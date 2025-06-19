@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -153,7 +152,7 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchMessages = async (groupId: string) => {
+  const fetchMessages = async (groupId: string): Promise<void> => {
     if (!groupId) return;
     
     setLoadingMessages(true);
@@ -212,10 +211,6 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
           }
         )
         .subscribe();
-      
-      return () => {
-        supabase.removeChannel(channel);
-      };
     } catch (error: any) {
       console.error('Error fetching messages:', error);
       toast({

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,25 +46,18 @@ const Events = () => {
     },
   });
 
-  // Fetch events from Supabase using raw SQL
+  // Fetch events from Supabase
   const fetchEvents = async () => {
     try {
-      const { data, error } = await supabase
-        .rpc('get_events');
-
+      // Use type assertion to bypass TypeScript table recognition issue
+      const { data, error } = await (supabase as any)
+        .from('events')
+        .select('*')
+        .order('event_date', { ascending: true });
+      
       if (error) {
-        // Fallback: try direct query without RPC
-        const { data: fallbackData, error: fallbackError } = await supabase
-          .from('events' as any)
-          .select('*')
-          .order('event_date', { ascending: true });
-        
-        if (fallbackError) {
-          console.error('Events table might not exist yet:', fallbackError);
-          setEvents([]);
-          return;
-        }
-        setEvents(fallbackData || []);
+        console.error('Error fetching events:', error);
+        setEvents([]);
         return;
       }
       
@@ -94,7 +86,8 @@ const Events = () => {
     }
 
     try {
-      const { error } = await supabase.from('events' as any).insert({
+      // Use type assertion to bypass TypeScript table recognition issue
+      const { error } = await (supabase as any).from('events').insert({
         title: values.title,
         description: values.description,
         location: values.location,
