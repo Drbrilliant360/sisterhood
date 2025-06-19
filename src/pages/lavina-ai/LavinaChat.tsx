@@ -11,13 +11,13 @@ type ChatMessage = {
   content: string
 };
 
-interface HadijaChatProps {
+interface LavinaChatProps {
   defaultHistory?: Array<ChatMessage>
 }
 
-const HadijaChat: React.FC<HadijaChatProps> = ({
+const LavinaChat: React.FC<LavinaChatProps> = ({
   defaultHistory = [
-    { role: 'assistant', content: "Hello! I'm Hadija, your AI assistant. I'm here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have." }
+    { role: 'assistant', content: "Hello! I'm Lavina, your AI assistant. I'm here to help you with anything related to entrepreneurship, mentorship, health, safety, or any other questions you might have." }
   ]
 }) => {
   const [message, setMessage] = useState('');
@@ -107,7 +107,7 @@ const HadijaChat: React.FC<HadijaChatProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bot className="text-sisterhood-primary" />
-          Chat with Hadija
+          Chat with Lavina
         </CardTitle>
         <CardDescription>
           Your 24/7 AI assistant for health, safety, and business questions
@@ -180,4 +180,4 @@ const HadijaChat: React.FC<HadijaChatProps> = ({
   );
 };
 
-export default HadijaChat;
+export default LavinaChat;

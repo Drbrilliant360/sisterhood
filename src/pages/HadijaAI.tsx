@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import HadijaChat from './hadija-ai/HadijaChat';
-import MentorMatching from './hadija-ai/MentorMatching';
-import ContentRecommendations from './hadija-ai/ContentRecommendations';
+import LavinaChat from './lavina-ai/LavinaChat';
+import MentorMatching from './lavina-ai/MentorMatching';
+import ContentRecommendations from './lavina-ai/ContentRecommendations';
 
-const HadijaAI = () => {
+const LavinaAI = () => {
   const [activeTab, setActiveTab] = useState('chat');
 
   return (
@@ -16,7 +16,7 @@ const HadijaAI = () => {
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-sisterhood-primary">Hadija AI</h1>
+            <h1 className="text-3xl font-bold text-sisterhood-primary">Lavina AI</h1>
             <p className="text-sisterhood-neutral mt-2">Your intelligent assistant for mentorship, health, and entrepreneurship</p>
           </div>
           <Tabs defaultValue="chat" className="w-full" onValueChange={(value) => setActiveTab(value)}>
@@ -33,7 +33,7 @@ const HadijaAI = () => {
             </TabsList>
 
             <TabsContent value="chat" className="space-y-4">
-              <HadijaChat />
+              <LavinaChat />
             </TabsContent>
             <TabsContent value="matching" className="space-y-4">
               <MentorMatching />
@@ -49,4 +49,4 @@ const HadijaAI = () => {
   );
 };
 
-export default HadijaAI;
+export default LavinaAI;

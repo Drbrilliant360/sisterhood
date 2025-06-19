@@ -76,7 +76,7 @@ const Navbar = () => {
             <Link to="/hadija-ai" className="text-gray-700 hover:text-sisterhood-primary px-3 py-2 font-medium">
               <span className="flex items-center">
                 <Bot size={16} className="mr-1" />
-                Hadija AI
+                Lavina AI
               </span>
             </Link>
             
@@ -157,7 +157,7 @@ const Navbar = () => {
             <Link to="/hadija-ai" className="text-gray-700 hover:text-sisterhood-primary block px-3 py-2 font-medium">
               <span className="flex items-center">
                 <Bot size={16} className="mr-1" />
-                Hadija AI
+                Lavina AI
               </span>
             </Link>
             
