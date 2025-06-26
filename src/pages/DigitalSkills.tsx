@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus } from "lucide-react";
+import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus, ExternalLink } from "lucide-react";
 
 const DigitalSkills = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -67,6 +67,7 @@ const DigitalSkills = () => {
   // Featured workshops data
   const featuredWorkshops = [
     {
+      id: 1,
       title: "Introduction to Digital Marketing",
       date: "May 10, 2025",
       time: "10:00 AM - 12:00 PM",
@@ -75,6 +76,7 @@ const DigitalSkills = () => {
       spotsLeft: 7
     },
     {
+      id: 2,
       title: "Building Your First Website",
       date: "May 15, 2025",
       time: "2:00 PM - 5:00 PM",
@@ -83,6 +85,7 @@ const DigitalSkills = () => {
       spotsLeft: 3
     },
     {
+      id: 3,
       title: "Social Media for Business",
       date: "May 22, 2025",
       time: "1:00 PM - 3:00 PM",
@@ -114,11 +117,47 @@ const DigitalSkills = () => {
     }
   ];
 
-  // Community partners data
+  // Community partners with URLs
   const communityPartners = [
-    "Microsoft Digital Skills", "Google Digital Garage", "IBM SkillsBuild", 
-    "Cisco Networking Academy", "Local Community College", "Women Techmakers"
+    { name: "Microsoft Digital Skills", url: "https://www.microsoft.com/en-us/digitalliteracy" },
+    { name: "Google Digital Garage", url: "https://learndigital.withgoogle.com/digitalgarage" },
+    { name: "IBM SkillsBuild", url: "https://skillsbuild.org/" },
+    { name: "Cisco Networking Academy", url: "https://www.netacad.com/" },
+    { name: "Local Community College", url: "#" },
+    { name: "Women Techmakers", url: "https://www.womentechmakers.com/" }
   ];
+
+  // Handle course navigation - redirect to dashboard for full functionality
+  const handleCourseSelect = () => {
+    window.location.href = '/dashboard?tab=activities';
+  };
+
+  // Handle workshop registration
+  const handleWorkshopRegistration = (workshopId: number) => {
+    console.log(`Registering for workshop ${workshopId}`);
+    alert(`Registration form for workshop ${workshopId} would open here. This feature will be implemented with a proper form and backend integration.`);
+  };
+
+  // Handle facilitator application
+  const handleFacilitatorApplication = () => {
+    console.log("Opening facilitator application");
+    alert("Facilitator application form would open here. This feature will be implemented with a proper form and backend integration.");
+  };
+
+  // Handle story sharing
+  const handleStorySharing = () => {
+    console.log("Opening story sharing form");
+    alert("Story sharing form would open here. This feature will be implemented with a proper form and backend integration.");
+  };
+
+  // Handle partner link clicks
+  const handlePartnerClick = (url: string) => {
+    if (url === "#") {
+      alert("Contact information for Local Community College would be displayed here.");
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -151,7 +190,7 @@ const DigitalSkills = () => {
             <TabsContent value="courses" className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {courseCategories.map((category, index) => (
-                  <Card key={index} className="hover:shadow-md transition-shadow">
+                  <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         {category.icon}
@@ -181,7 +220,7 @@ const DigitalSkills = () => {
                           <Progress value={category.progress} className="h-2" />
                         </div>
                         
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={handleCourseSelect}>
                           {category.progress > 0 ? "Continue Learning" : "Start Course"}
                         </Button>
                       </div>
@@ -197,7 +236,7 @@ const DigitalSkills = () => {
                       <h3 className="text-xl font-medium">Ready to take your skills to the next level?</h3>
                       <p className="text-sisterhood-neutral">Check out our advanced course tracks and certification programs.</p>
                     </div>
-                    <Button className="whitespace-nowrap">
+                    <Button className="whitespace-nowrap" onClick={handleCourseSelect}>
                       View All Courses <ChevronRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
@@ -238,7 +277,12 @@ const DigitalSkills = () => {
                           </div>
                         </div>
                         
-                        <Button className="w-full">Register Now</Button>
+                        <Button 
+                          className="w-full" 
+                          onClick={() => handleWorkshopRegistration(workshop.id)}
+                        >
+                          Register Now
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -252,7 +296,11 @@ const DigitalSkills = () => {
                       <h3 className="text-xl font-medium">Want to share your skills?</h3>
                       <p className="text-sisterhood-neutral">Apply to become a workshop facilitator and help empower other women.</p>
                     </div>
-                    <Button variant="outline" className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary">
+                    <Button 
+                      variant="outline" 
+                      className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary"
+                      onClick={handleFacilitatorApplication}
+                    >
                       Apply as Facilitator <UserPlus className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
@@ -301,7 +349,11 @@ const DigitalSkills = () => {
                       <h3 className="text-xl font-medium">Have a success story to share?</h3>
                       <p className="text-sisterhood-neutral">Tell us how digital skills have transformed your career or business.</p>
                     </div>
-                    <Button variant="outline" className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary">
+                    <Button 
+                      variant="outline" 
+                      className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary"
+                      onClick={handleStorySharing}
+                    >
                       Share Your Story <PenTool className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
@@ -320,8 +372,16 @@ const DigitalSkills = () => {
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {communityPartners.map((partner, index) => (
-                        <Button key={index} variant="outline" className="h-auto py-6 flex flex-col items-center justify-center text-center">
-                          <span>{partner}</span>
+                        <Button 
+                          key={index} 
+                          variant="outline" 
+                          className="h-auto py-6 flex flex-col items-center justify-center text-center hover:bg-gray-50"
+                          onClick={() => handlePartnerClick(partner.url)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>{partner.name}</span>
+                            <ExternalLink className="h-4 w-4" />
+                          </div>
                           <span className="text-xs mt-1 text-gray-500">Free Resources</span>
                         </Button>
                       ))}

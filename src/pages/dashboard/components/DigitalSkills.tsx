@@ -1,70 +1,85 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus, BookOpen } from "lucide-react";
+import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus, BookOpen, ExternalLink } from "lucide-react";
 import AllCourses from './courses/AllCourses';
 
 const DigitalSkills = () => {
   const [activeTab, setActiveTab] = useState("courses");
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
 
-  // Course categories data
+  // Course categories data with navigation support
   const courseCategories = [
     {
+      id: "basic-computer",
       title: "Basic Computer Skills",
       description: "Learn fundamental computer operations and file management",
       modules: ["Computer Basics", "File Management", "Internet Basics"],
       icon: <Laptop className="h-8 w-8 text-sisterhood-primary" />,
       progress: 65,
-      enrolled: 1243
+      enrolled: 1243,
+      hasFullContent: true
     },
     {
+      id: "office-productivity",
       title: "Office Productivity",
       description: "Master essential office software and tools",
       modules: ["Word Processing", "Spreadsheets", "Presentations"],
       icon: <FileText className="h-8 w-8 text-sisterhood-primary" />,
       progress: 40,
-      enrolled: 987
+      enrolled: 987,
+      hasFullContent: true
     },
     {
+      id: "digital-marketing",
       title: "Digital Marketing",
       description: "Develop skills in online marketing and social media",
       modules: ["Social Media Marketing", "Email Marketing", "Content Creation"],
       icon: <MessageSquare className="h-8 w-8 text-sisterhood-primary" />,
       progress: 80,
-      enrolled: 1567
+      enrolled: 1567,
+      hasFullContent: false
     },
     {
+      id: "web-development",
       title: "Web Development",
       description: "Learn website creation and management",
       modules: ["HTML/CSS Basics", "WordPress", "Website Management"],
       icon: <Code className="h-8 w-8 text-sisterhood-primary" />,
       progress: 25,
-      enrolled: 2134
+      enrolled: 2134,
+      hasFullContent: false
     },
     {
+      id: "mobile-app",
       title: "Mobile App Skills",
       description: "Develop competencies in mobile application usage and development",
       modules: ["Mobile Productivity", "App Monetization", "App Design Principles"],
       icon: <Smartphone className="h-8 w-8 text-sisterhood-primary" />,
       progress: 15,
-      enrolled: 765
+      enrolled: 765,
+      hasFullContent: false
     },
     {
+      id: "data-skills",
       title: "Data Skills",
       description: "Learn to collect, analyze, and visualize data",
       modules: ["Data Collection", "Basic Analysis", "Data Visualization"],
       icon: <Database className="h-8 w-8 text-sisterhood-primary" />,
       progress: 50,
-      enrolled: 891
+      enrolled: 891,
+      hasFullContent: false
     }
   ];
 
   // Featured workshops data
   const featuredWorkshops = [
     {
+      id: 1,
       title: "Introduction to Digital Marketing",
       date: "May 10, 2025",
       time: "10:00 AM - 12:00 PM",
@@ -73,6 +88,7 @@ const DigitalSkills = () => {
       spotsLeft: 7
     },
     {
+      id: 2,
       title: "Building Your First Website",
       date: "May 15, 2025",
       time: "2:00 PM - 5:00 PM",
@@ -81,6 +97,7 @@ const DigitalSkills = () => {
       spotsLeft: 3
     },
     {
+      id: 3,
       title: "Social Media for Business",
       date: "May 22, 2025",
       time: "1:00 PM - 3:00 PM",
@@ -112,11 +129,48 @@ const DigitalSkills = () => {
     }
   ];
 
-  // Community partners data
+  // Community partners with URLs
   const communityPartners = [
-    "Microsoft Digital Skills", "Google Digital Garage", "IBM SkillsBuild", 
-    "Cisco Networking Academy", "Local Community College", "Women Techmakers"
+    { name: "Microsoft Digital Skills", url: "https://www.microsoft.com/en-us/digitalliteracy" },
+    { name: "Google Digital Garage", url: "https://learndigital.withgoogle.com/digitalgarage" },
+    { name: "IBM SkillsBuild", url: "https://skillsbuild.org/" },
+    { name: "Cisco Networking Academy", url: "https://www.netacad.com/" },
+    { name: "Local Community College", url: "#" },
+    { name: "Women Techmakers", url: "https://www.womentechmakers.com/" }
   ];
+
+  // Handle course selection and navigation
+  const handleCourseSelect = (courseId: string) => {
+    setSelectedCourse(courseId);
+    setActiveTab("all-courses");
+  };
+
+  // Handle workshop registration
+  const handleWorkshopRegistration = (workshopId: number) => {
+    console.log(`Registering for workshop ${workshopId}`);
+    alert(`Registration form for workshop ${workshopId} would open here. This feature will be implemented with a proper form and backend integration.`);
+  };
+
+  // Handle facilitator application
+  const handleFacilitatorApplication = () => {
+    console.log("Opening facilitator application");
+    alert("Facilitator application form would open here. This feature will be implemented with a proper form and backend integration.");
+  };
+
+  // Handle story sharing
+  const handleStorySharing = () => {
+    console.log("Opening story sharing form");
+    alert("Story sharing form would open here. This feature will be implemented with a proper form and backend integration.");
+  };
+
+  // Handle partner link clicks
+  const handlePartnerClick = (url: string) => {
+    if (url === "#") {
+      alert("Contact information for Local Community College would be displayed here.");
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -147,7 +201,7 @@ const DigitalSkills = () => {
         <TabsContent value="courses" className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {courseCategories.map((category, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
+              <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
                     {category.icon}
@@ -177,8 +231,15 @@ const DigitalSkills = () => {
                       <Progress value={category.progress} className="h-2" />
                     </div>
                     
-                    <Button className="w-full">
-                      {category.progress > 0 ? "Continue Learning" : "Start Course"}
+                    <Button 
+                      className="w-full" 
+                      onClick={() => handleCourseSelect(category.id)}
+                      disabled={!category.hasFullContent}
+                    >
+                      {category.hasFullContent ? 
+                        (category.progress > 0 ? "Continue Learning" : "Start Course") :
+                        "Coming Soon"
+                      }
                     </Button>
                   </div>
                 </CardContent>
@@ -203,7 +264,7 @@ const DigitalSkills = () => {
         
         {/* All Courses Tab */}
         <TabsContent value="all-courses" className="space-y-6">
-          <AllCourses />
+          <AllCourses selectedCourse={selectedCourse} />
         </TabsContent>
         
         {/* Workshops Tab */}
@@ -239,7 +300,12 @@ const DigitalSkills = () => {
                       </div>
                     </div>
                     
-                    <Button className="w-full">Register Now</Button>
+                    <Button 
+                      className="w-full" 
+                      onClick={() => handleWorkshopRegistration(workshop.id)}
+                    >
+                      Register Now
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -253,7 +319,11 @@ const DigitalSkills = () => {
                   <h3 className="text-xl font-medium">Want to share your skills?</h3>
                   <p className="text-sisterhood-neutral">Apply to become a workshop facilitator and help empower other women.</p>
                 </div>
-                <Button variant="outline" className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary">
+                <Button 
+                  variant="outline" 
+                  className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary"
+                  onClick={handleFacilitatorApplication}
+                >
                   Apply as Facilitator <UserPlus className="ml-1 h-4 w-4" />
                 </Button>
               </div>
@@ -302,7 +372,11 @@ const DigitalSkills = () => {
                   <h3 className="text-xl font-medium">Have a success story to share?</h3>
                   <p className="text-sisterhood-neutral">Tell us how digital skills have transformed your career or business.</p>
                 </div>
-                <Button variant="outline" className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary">
+                <Button 
+                  variant="outline" 
+                  className="whitespace-nowrap border-sisterhood-primary text-sisterhood-primary"
+                  onClick={handleStorySharing}
+                >
                   Share Your Story <PenTool className="ml-1 h-4 w-4" />
                 </Button>
               </div>
@@ -321,8 +395,16 @@ const DigitalSkills = () => {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {communityPartners.map((partner, index) => (
-                    <Button key={index} variant="outline" className="h-auto py-6 flex flex-col items-center justify-center text-center">
-                      <span>{partner}</span>
+                    <Button 
+                      key={index} 
+                      variant="outline" 
+                      className="h-auto py-6 flex flex-col items-center justify-center text-center hover:bg-gray-50"
+                      onClick={() => handlePartnerClick(partner.url)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>{partner.name}</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </div>
                       <span className="text-xs mt-1 text-gray-500">Free Resources</span>
                     </Button>
                   ))}

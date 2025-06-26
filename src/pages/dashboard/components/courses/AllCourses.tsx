@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,9 +8,20 @@ import { Laptop, FileText, MessageSquare, Code, Smartphone, Database, ArrowLeft 
 import BasicComputerSkillsCourse from './BasicComputerSkillsCourse';
 import OfficeProductivityCourse from './OfficeProductivityCourse';
 
-const AllCourses = () => {
-  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+interface AllCoursesProps {
+  selectedCourse?: string | null;
+}
+
+const AllCourses = ({ selectedCourse: initialSelectedCourse }: AllCoursesProps) => {
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(initialSelectedCourse || null);
   const [activeTab, setActiveTab] = useState("all");
+
+  // Update selectedCourse when prop changes
+  useEffect(() => {
+    if (initialSelectedCourse) {
+      setSelectedCourse(initialSelectedCourse);
+    }
+  }, [initialSelectedCourse]);
 
   const courseCategories = [
     {
