@@ -18,6 +18,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
+interface ProfileData {
+  id: string;
+  full_name: string | null;
+  bio: string | null;
+  location: string | null;
+  phone: string | null;
+  interests: string | null;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 const formSchema = z.object({
   full_name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
   bio: z.string().optional(),
@@ -27,7 +39,7 @@ const formSchema = z.object({
 });
 
 const Profile = () => {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { user } = useAuth();
@@ -143,7 +155,7 @@ const Profile = () => {
               <CardHeader className="text-center">
                 <div className="relative mx-auto w-24 h-24 mb-4">
                   <Avatar className="w-24 h-24">
-                    <AvatarImage src={profile?.avatar_url} alt={profile?.full_name} />
+                    <AvatarImage src={profile?.avatar_url || undefined} alt={profile?.full_name || undefined} />
                     <AvatarFallback className="text-2xl">
                       {profile?.full_name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
                     </AvatarFallback>
