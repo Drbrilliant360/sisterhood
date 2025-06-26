@@ -30,6 +30,10 @@ import Entrepreneurship from "./pages/Entrepreneurship";
 import HealthResources from "./pages/HealthResources";
 import SafetyTools from "./pages/SafetyTools";
 import Groups from "./pages/Groups";
+import Profile from "./pages/Profile";
+import Notifications from "./pages/Notifications";
+import EventDetails from "./pages/EventDetails";
+import AllMentors from "./pages/AllMentors";
 
 const queryClient = new QueryClient();
 
@@ -108,6 +112,26 @@ const App = () => (
             <Route path="/groups" element={
               <ProtectedRoute>
                 <Groups />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/notifications" element={
+              <ProtectedRoute>
+                <Notifications />
+              </ProtectedRoute>
+            } />
+            <Route path="/event-details/:id" element={
+              <ProtectedRoute>
+                <EventDetails />
+              </ProtectedRoute>
+            } />
+            <Route path="/all-mentors" element={
+              <ProtectedRoute>
+                <AllMentors />
               </ProtectedRoute>
             } />
             

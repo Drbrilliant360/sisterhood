@@ -52,9 +52,11 @@ const NormalUserOverview = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="ghost" className="w-full text-sisterhood-primary">
-            View All Mentors
-          </Button>
+          <Link to="/all-mentors" className="w-full">
+            <Button variant="ghost" className="w-full text-sisterhood-primary">
+              View All Mentors
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
       
@@ -67,44 +69,52 @@ const NormalUserOverview = () => {
         <CardContent>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                <div className="bg-sisterhood-light rounded p-2 text-center min-w-[50px]">
-                  <div className="text-xs text-gray-500">
-                    {i === 1 ? 'May' : i === 2 ? 'May' : 'Jun'}
+              <Link 
+                key={i} 
+                to={`/event-details/${i}`}
+                className="block"
+              >
+                <div className="flex p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                  <div className="bg-sisterhood-light rounded p-2 text-center min-w-[50px]">
+                    <div className="text-xs text-gray-500">
+                      {i === 1 ? 'May' : i === 2 ? 'May' : 'Jun'}
+                    </div>
+                    <div className="text-lg font-bold text-sisterhood-primary">
+                      {i === 1 ? '15' : i === 2 ? '22' : '05'}
+                    </div>
                   </div>
-                  <div className="text-lg font-bold text-sisterhood-primary">
-                    {i === 1 ? '15' : i === 2 ? '22' : '05'}
-                  </div>
-                </div>
-                <div className="ml-3">
-                  <h3 className="font-medium">
-                    {i === 1 ? 'Women in Business Workshop' : i === 2 ? 'Health & Wellness Webinar' : 'Safety Training Session'}
-                  </h3>
-                  <div className="flex items-center text-sm text-gray-500 mt-1">
-                    <Clock className="h-3 w-3 mr-1" />
-                    <span>
-                      {i === 1 ? '10:00 AM - 12:00 PM' : i === 2 ? '2:00 PM - 3:30 PM' : '11:00 AM - 1:00 PM'}
-                    </span>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {i === 1 ? 'In-Person' : i === 2 ? 'Online' : 'In-Person'}
-                    </Badge>
-                    {i !== 2 && (
-                      <span className="text-xs text-gray-500 ml-2">
-                        Dar es Salaam, Tanzania
+                  <div className="ml-3">
+                    <h3 className="font-medium">
+                      {i === 1 ? 'Women in Business Workshop' : i === 2 ? 'Health & Wellness Webinar' : 'Safety Training Session'}
+                    </h3>
+                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                      <Clock className="h-3 w-3 mr-1" />
+                      <span>
+                        {i === 1 ? '10:00 AM - 12:00 PM' : i === 2 ? '2:00 PM - 3:30 PM' : '11:00 AM - 1:00 PM'}
                       </span>
-                    )}
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <Badge variant="secondary" className="text-xs">
+                        {i === 1 ? 'In-Person' : i === 2 ? 'Online' : 'In-Person'}
+                      </Badge>
+                      {i !== 2 && (
+                        <span className="text-xs text-gray-500 ml-2">
+                          Dar es Salaam, Tanzania
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="ghost" className="w-full text-sisterhood-primary">
-            View All Events
-          </Button>
+          <Link to="/events" className="w-full">
+            <Button variant="ghost" className="w-full text-sisterhood-primary">
+              View All Events
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>

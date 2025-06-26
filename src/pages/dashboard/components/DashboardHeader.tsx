@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Bell, UserCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -31,14 +32,18 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ userType }) => {
           </div>
         </div>
         <div className="flex space-x-2">
-          <Button variant="secondary" className="bg-white/20 hover:bg-white/30 border-0">
-            <Bell className="mr-2 h-4 w-4" />
-            Notifications
-          </Button>
-          <Button variant="secondary" className="bg-white text-sisterhood-primary hover:bg-white/90 border-0">
-            <UserCircle className="mr-2 h-4 w-4" />
-            My Profile
-          </Button>
+          <Link to="/notifications">
+            <Button variant="secondary" className="bg-white/20 hover:bg-white/30 border-0">
+              <Bell className="mr-2 h-4 w-4" />
+              Notifications
+            </Button>
+          </Link>
+          <Link to="/profile">
+            <Button variant="secondary" className="bg-white text-sisterhood-primary hover:bg-white/90 border-0">
+              <UserCircle className="mr-2 h-4 w-4" />
+              My Profile
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
