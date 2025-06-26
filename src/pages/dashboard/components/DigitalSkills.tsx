@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus } from "lucide-react";
+import { Check, ChevronRight, Clock, Code, Database, FileText, Laptop, MessageSquare, PenTool, Smartphone, UserPlus, BookOpen } from "lucide-react";
+import AllCourses from './courses/AllCourses';
 
 const DigitalSkills = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -135,8 +135,9 @@ const DigitalSkills = () => {
       </div>
 
       <Tabs defaultValue="courses" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-4 mb-8">
+        <TabsList className="grid grid-cols-5 mb-8">
           <TabsTrigger value="courses">Courses</TabsTrigger>
+          <TabsTrigger value="all-courses">All Courses</TabsTrigger>
           <TabsTrigger value="workshops">Workshops</TabsTrigger>
           <TabsTrigger value="success">Success Stories</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
@@ -192,12 +193,17 @@ const DigitalSkills = () => {
                   <h3 className="text-xl font-medium">Ready to take your skills to the next level?</h3>
                   <p className="text-sisterhood-neutral">Check out our advanced course tracks and certification programs.</p>
                 </div>
-                <Button className="whitespace-nowrap">
+                <Button className="whitespace-nowrap" onClick={() => setActiveTab("all-courses")}>
                   View All Courses <ChevronRight className="ml-1 h-4 w-4" />
                 </Button>
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+        
+        {/* All Courses Tab */}
+        <TabsContent value="all-courses" className="space-y-6">
+          <AllCourses />
         </TabsContent>
         
         {/* Workshops Tab */}
