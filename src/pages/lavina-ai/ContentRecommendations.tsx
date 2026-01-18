@@ -101,11 +101,13 @@ const ContentRecommendations: React.FC = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <FileText className="text-sisterhood-primary" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">
+              <span className="text-sm">📚</span>
+            </div>
             Personalized Content
           </CardTitle>
           <CardDescription>
-            Get AI-powered recommendations based on your interests and preferences
+            Glory AI curates African-focused content tailored to your growth journey
           </CardDescription>
         </CardHeader>
         <CardContent>
