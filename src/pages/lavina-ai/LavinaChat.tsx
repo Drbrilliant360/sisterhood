@@ -16,9 +16,9 @@ interface LavinaChatProps {
   defaultHistory?: Array<ChatMessage>
 }
 
-const LavinaChat: React.FC<LavinaChatProps> = ({
+const GloryChat: React.FC<LavinaChatProps> = ({
   defaultHistory = [
-    { role: 'assistant', content: "Hello! I'm Lavina, your comprehensive AI assistant powered by Grok. I'm here to help you with any questions or topics you'd like to explore. Whether it's about entrepreneurship, health, technology, science, arts, personal development, or any other subject, I'm ready to provide detailed and thoughtful responses tailored to support African women's empowerment. What would you like to discuss today?" }
+    { role: 'assistant', content: "Jambo! 👋🏾 I'm Glory, your African sister and AI companion. I'm here to support you on your journey - whether it's entrepreneurship, health, technology, education, or personal growth. As a daughter of Africa, I understand our unique challenges and opportunities. Let's rise together! What's on your mind today, sister?" }
   ]
 }) => {
   const [message, setMessage] = useState('');
@@ -91,11 +91,13 @@ const LavinaChat: React.FC<LavinaChatProps> = ({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Bot className="text-sisterhood-primary" />
-          Chat with Lavina (Powered by Grok)
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+            <span className="text-sm">👩🏾</span>
+          </div>
+          Chat with Glory
         </CardTitle>
         <CardDescription>
-          Your intelligent AI assistant powered by Grok - ask me anything and get real-time, thoughtful responses
+          Your African AI sister - ask me anything and get thoughtful, culturally relevant responses
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -148,7 +150,7 @@ const LavinaChat: React.FC<LavinaChatProps> = ({
             <Mic size={20} />
           </Button>
           <Input
-            placeholder="Ask me anything - I'm powered by Grok AI..."
+            placeholder="Ask Glory anything, sister..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
@@ -165,4 +167,4 @@ const LavinaChat: React.FC<LavinaChatProps> = ({
   );
 };
 
-export default LavinaChat;
+export default GloryChat;

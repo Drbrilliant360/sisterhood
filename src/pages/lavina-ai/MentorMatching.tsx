@@ -102,11 +102,13 @@ const MentorMatching: React.FC = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Brain className="text-sisterhood-primary" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 to-teal-500 flex items-center justify-center">
+              <span className="text-sm">👩🏾‍🏫</span>
+            </div>
             Smart Mentor Matching
           </CardTitle>
           <CardDescription>
-            Our AI analyzes your goals, personality, and learning style to find your ideal mentor
+            Glory AI connects you with experienced African women mentors who understand your journey
           </CardDescription>
         </CardHeader>
         
