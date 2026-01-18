@@ -8,39 +8,33 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
   
   try {
-    const { chatHistory } = await req.json();
-    console.log("Received chat history:", JSON.stringify(chatHistory));
+    const { goals, idealMentor } = await req.json();
+    console.log("Finding mentor matches for goals:", goals);
 
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    // Prepare messages for Lovable AI Gateway
-    const messages = [
-      {
-        role: "system",
-        content: "You are Lavina, a comprehensive AI assistant for SisterHood - a platform supporting Tanzanian and African women in entrepreneurship, health, and personal development. You provide detailed, thoughtful, and culturally sensitive responses. You're knowledgeable about business, health, technology, education, relationships, and African women's empowerment. Always be supportive, encouraging, and provide practical advice."
-      },
-      ...chatHistory.map(({ role, content }: { role: string; content: string }) => ({
-        role,
-        content,
-      }))
-    ];
+    const prompt = `You are a mentor matching system for SisterHood, a platform supporting African women in entrepreneurship, health, and personal development.
 
-    const body = {
-      model: "google/gemini-3-flash-preview",
-      messages,
-      temperature: 0.7,
-      max_tokens: 1000,
-    };
+A mentee is looking for a mentor with the following goals: ${goals}
+They describe their ideal mentor as: ${idealMentor}
 
-    console.log("Sending request to Lovable AI Gateway");
+Generate 3 ideal mentor profile matches. For each mentor, provide:
+1. name - A realistic African female name
+2. expertise - Their area of expertise
+3. experience - Years of experience and brief background
+4. matchScore - A compatibility percentage (75-98)
+5. bio - A 2-sentence bio
+6. availability - Weekly availability
+
+Format your response as a JSON array with objects containing: name, expertise, experience, matchScore, bio, availability.
+Only return the JSON array, nothing else.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -48,11 +42,17 @@ serve(async (req) => {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          { role: "system", content: "You are a helpful mentor matching assistant. Always respond with valid JSON." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 1000,
+      }),
     });
 
-    console.log("Lovable AI response status:", response.status);
-    
     if (!response.ok) {
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Rate limits exceeded, please try again later." }), {
@@ -66,20 +66,26 @@ serve(async (req) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
       throw new Error(`AI gateway error: ${response.status}`);
     }
 
     const json = await response.json();
-    console.log("Lovable AI response received");
+    const content = json.choices?.[0]?.message?.content || "[]";
+    
+    let mentors;
+    try {
+      const cleanContent = content.replace(/```json\n?|\n?```/g, '').trim();
+      mentors = JSON.parse(cleanContent);
+    } catch (e) {
+      console.error("Failed to parse mentors:", e);
+      mentors = [];
+    }
 
-    const aiReply = json.choices?.[0]?.message?.content ?? "Sorry, I could not generate a response.";
-    return new Response(JSON.stringify({ reply: aiReply }), {
+    return new Response(JSON.stringify({ mentors }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("Error in lavina AI function:", err);
+    console.error("Error finding mentors:", err);
     return new Response(JSON.stringify({ error: err.message || "Error processing request" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

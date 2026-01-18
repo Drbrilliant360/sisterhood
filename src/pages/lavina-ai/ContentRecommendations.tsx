@@ -1,92 +1,194 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
+import { FileText, Loader2, BookOpen, Video, Headphones, GraduationCap, Calendar, BookMarked, Users, FileQuestion } from "lucide-react";
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Badge } from '@/components/ui/badge';
+
+interface Recommendation {
+  title: string;
+  type: string;
+  description: string;
+  duration: string;
+  topic: string;
+}
 
 const ContentRecommendations: React.FC = () => {
   const { toast } = useToast();
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const simulateApiCall = (feature: string) => {
-    toast({
-      title: "Processing Request",
-      description: `Finding the best ${feature} for you...`,
-      duration: 1500,
-    });
+  const topics = ['Entrepreneurship', 'Health & Wellness', 'Safety', 'Leadership', 'Financial Literacy', 'Technology', 'Art & Culture', 'Education', 'Social Impact'];
+  const formats = ['Articles', 'Videos', 'Podcasts', 'Courses', 'Events', 'Books', 'Community Discussions', 'Case Studies'];
 
-    setTimeout(() => {
+  const toggleTopic = (topic: string) => {
+    setSelectedTopics(prev => 
+      prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]
+    );
+  };
+
+  const toggleFormat = (format: string) => {
+    setSelectedFormats(prev => 
+      prev.includes(format) ? prev.filter(f => f !== format) : [...prev, format]
+    );
+  };
+
+  const getFormatIcon = (type: string) => {
+    const iconMap: Record<string, React.ReactNode> = {
+      'Articles': <FileText className="h-4 w-4" />,
+      'Videos': <Video className="h-4 w-4" />,
+      'Podcasts': <Headphones className="h-4 w-4" />,
+      'Courses': <GraduationCap className="h-4 w-4" />,
+      'Events': <Calendar className="h-4 w-4" />,
+      'Books': <BookMarked className="h-4 w-4" />,
+      'Community Discussions': <Users className="h-4 w-4" />,
+      'Case Studies': <FileQuestion className="h-4 w-4" />,
+    };
+    return iconMap[type] || <BookOpen className="h-4 w-4" />;
+  };
+
+  const generateRecommendations = async () => {
+    if (selectedTopics.length === 0) {
       toast({
-        title: "Success!",
-        description: `We've found great ${feature} matches based on your profile.`,
-        duration: 3000,
+        title: "Select Topics",
+        description: "Please select at least one topic of interest.",
+        variant: "destructive",
       });
-    }, 2000);
+      return;
+    }
+
+    if (selectedFormats.length === 0) {
+      toast({
+        title: "Select Formats",
+        description: "Please select at least one content format preference.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('lavina-recommendations', {
+        body: { topics: selectedTopics, formats: selectedFormats }
+      });
+
+      if (error) throw error;
+
+      if (data?.recommendations) {
+        setRecommendations(data.recommendations);
+        toast({
+          title: "Recommendations Generated!",
+          description: `Found ${data.recommendations.length} personalized recommendations for you.`,
+        });
+      }
+    } catch (error: any) {
+      console.error('Error generating recommendations:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to generate recommendations. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <FileText className="text-sisterhood-primary" />
-          Personalized Content
-        </CardTitle>
-        <CardDescription>
-          Get recommendations based on your interests and activity
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div>
-            <h3 className="font-medium mb-2">What topics interest you most?</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {['Entrepreneurship', 'Health & Wellness', 'Safety', 'Leadership', 'Financial Literacy', 'Technology', 'Art & Culture', 'Education', 'Social Impact'].map(topic => (
-                <Button 
-                  key={topic} 
-                  variant="outline" 
-                  className="justify-start"
-                  onClick={() => toast({
-                    title: "Topic Selected",
-                    description: `${topic} added to your interests`,
-                    duration: 2000,
-                  })}
-                >
-                  {topic}
-                </Button>
-              ))}
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="text-sisterhood-primary" />
+            Personalized Content
+          </CardTitle>
+          <CardDescription>
+            Get AI-powered recommendations based on your interests and preferences
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-medium mb-3">What topics interest you most?</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {topics.map(topic => (
+                  <Button 
+                    key={topic} 
+                    variant={selectedTopics.includes(topic) ? "default" : "outline"} 
+                    className="justify-start"
+                    onClick={() => toggleTopic(topic)}
+                  >
+                    {topic}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="font-medium mb-3">Content format preferences:</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                {formats.map(format => (
+                  <Button 
+                    key={format} 
+                    variant={selectedFormats.includes(format) ? "default" : "outline"} 
+                    size="sm"
+                    onClick={() => toggleFormat(format)}
+                  >
+                    {format}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
-          
-          <div>
-            <h3 className="font-medium mb-2">Content format preferences:</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {['Articles', 'Videos', 'Podcasts', 'Courses', 'Events', 'Books', 'Community Discussions', 'Case Studies'].map(format => (
-                <Button 
-                  key={format} 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => toast({
-                    title: "Format Selected",
-                    description: `${format} added to your preferences`,
-                    duration: 2000,
-                  })}
-                >
-                  {format}
-                </Button>
-              ))}
-            </div>
+        </CardContent>
+        <CardFooter>
+          <Button 
+            onClick={generateRecommendations}
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating Recommendations...
+              </>
+            ) : (
+              'Generate Recommendations'
+            )}
+          </Button>
+        </CardFooter>
+      </Card>
+
+      {recommendations.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Your Personalized Recommendations</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {recommendations.map((rec, index) => (
+              <Card key={index} className="hover:shadow-md transition-shadow">
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      {getFormatIcon(rec.type)}
+                      {rec.title}
+                    </CardTitle>
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    <Badge variant="secondary">{rec.type}</Badge>
+                    <Badge variant="outline">{rec.topic}</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600">{rec.description}</p>
+                  <p className="text-xs text-gray-400 mt-2">⏱ {rec.duration}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
-      </CardContent>
-      <CardFooter>
-        <Button 
-          onClick={() => simulateApiCall('content recommendations')}
-          className="w-full"
-        >
-          Generate Recommendations
-        </Button>
-      </CardFooter>
-    </Card>
+      )}
+    </div>
   );
 };
 

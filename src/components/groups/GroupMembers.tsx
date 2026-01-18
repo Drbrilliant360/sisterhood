@@ -85,7 +85,7 @@ const GroupMembers = ({ onBack }: GroupMembersProps) => {
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="font-medium">{displayName}</p>
-                      {member.is_admin && (
+                      {member.role === 'admin' && (
                         <span className="bg-sisterhood-primary/10 text-sisterhood-primary text-xs px-2 py-0.5 rounded">
                           Admin
                         </span>

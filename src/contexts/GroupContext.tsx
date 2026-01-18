@@ -8,7 +8,7 @@ type GroupMember = {
   id: string;
   user_id: string;
   group_id: string;
-  is_admin: boolean;
+  role: string;
   joined_at: string;
   profile?: {
     full_name: string;
@@ -20,11 +20,9 @@ export type Group = {
   id: string;
   name: string;
   description: string | null;
-  created_by: string;
+  created_by: string | null;
   is_private: boolean;
-  category: string | null;
   created_at: string;
-  updated_at: string;
   memberCount?: number;
 };
 
@@ -255,7 +253,7 @@ export const GroupProvider = ({ children }: { children: ReactNode }) => {
         .insert({
           group_id: groupId,
           user_id: user.id,
-          is_admin: false,
+          role: 'member',
         });
 
       if (error) throw error;
