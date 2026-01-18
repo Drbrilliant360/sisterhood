@@ -20,11 +20,12 @@ import { Badge } from '@/components/ui/badge';
 
 interface ProfileData {
   id: string;
+  user_id: string;
   full_name: string | null;
   bio: string | null;
   location: string | null;
   phone: string | null;
-  interests: string | null;
+  interests: string[] | null;
   avatar_url: string | null;
   created_at: string;
   updated_at: string;
@@ -64,7 +65,7 @@ const Profile = () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user.id)
+        .eq('user_id', user.id)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -78,7 +79,7 @@ const Profile = () => {
           bio: data.bio || '',
           location: data.location || '',
           phone: data.phone || '',
-          interests: data.interests || '',
+          interests: Array.isArray(data.interests) ? data.interests.join(', ') : (data.interests || ''),
         });
       }
     } catch (error) {
@@ -98,13 +99,19 @@ const Profile = () => {
 
     setSaving(true);
     try {
+      const interestsArray = values.interests ? values.interests.split(',').map(i => i.trim()).filter(Boolean) : [];
+      
       const { error } = await supabase
         .from('profiles')
         .upsert({
-          id: user.id,
-          ...values,
+          user_id: user.id,
+          full_name: values.full_name,
+          bio: values.bio,
+          location: values.location,
+          phone: values.phone,
+          interests: interestsArray,
           updated_at: new Date().toISOString(),
-        });
+        }, { onConflict: 'user_id' });
 
       if (error) throw error;
 
@@ -188,11 +195,11 @@ const Profile = () => {
                   <Calendar className="h-4 w-4 mr-2" />
                   Joined {new Date(profile?.created_at || Date.now()).toLocaleDateString()}
                 </div>
-                {profile?.interests && (
+                {profile?.interests && profile.interests.length > 0 && (
                   <div className="pt-2">
                     <p className="text-sm font-medium text-gray-700 mb-2">Interests</p>
                     <div className="flex flex-wrap gap-1">
-                      {profile.interests.split(',').map((interest: string, index: number) => (
+                      {(Array.isArray(profile.interests) ? profile.interests : []).map((interest: string, index: number) => (
                         <Badge key={index} variant="secondary" className="text-xs">
                           {interest.trim()}
                         </Badge>

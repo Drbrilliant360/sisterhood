@@ -20,8 +20,7 @@ const GroupList = () => {
   // Filter groups based on search term
   const filteredGroups = groups.filter(group => 
     group.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (group.description && group.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (group.category && group.category.toLowerCase().includes(searchTerm.toLowerCase()))
+    (group.description && group.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
   
   // Fetch user's groups
@@ -135,9 +134,9 @@ const GroupList = () => {
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <CardTitle className="text-lg">{group.name}</CardTitle>
-                        {group.category && (
-                          <Badge variant="outline" className="text-xs capitalize">
-                            {group.category}
+                        {group.is_private && (
+                          <Badge variant="outline" className="text-xs">
+                            Private
                           </Badge>
                         )}
                       </div>
